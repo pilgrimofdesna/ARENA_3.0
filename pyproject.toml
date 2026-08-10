@@ -1,0 +1,14 @@
+[project]
+name = "arena-study"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "circuitsvis==1.43.3",
+    "ipykernel>=7",
+    "jupyterlab>=4",
+    "plotly>=6",
+    "torch>=2.13.0",
+    "transformer-lens==3.6.0",
+]
