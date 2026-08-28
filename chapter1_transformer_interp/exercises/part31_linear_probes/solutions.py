@@ -91,6 +91,17 @@ if MAIN:
     print(f"Layers: {NUM_LAYERS}, Hidden dim: {D_MODEL}")
     print(f"Probe layer: {PROBE_LAYER}, Intervene layer: {INTERVENE_LAYER}")
 
+# %% [markdown]
+# > [!IMPORTANT]
+# > **2026-08-29 정정 — `layer 14`는 보편적인 'truth layer'가 아니다.**
+# > 이 값은 *Geometry of Truth*의 Llama-2-13B 설정을 재현하기 위한 하이퍼파라미터일 뿐이다.
+# > 2026년 후속 연구는 truth direction의 위치와 전이성이 모델, 과제(사실 회상 vs. 추론),
+# > 난이도, 지시문 템플릿에 크게 의존함을 보였다
+# > ([Poulis et al., 2026](https://arxiv.org/abs/2604.03754)). 따라서 새 모델/과제에서는 모든
+# > 층을 **train/validation 데이터로만** 탐색하고, 최종 test set은 한 번만 평가해야 한다.
+# > 아래 `best_layer = argmax(test_acc)`는 학습용 탐색 시각화로는 괜찮지만, 그 층의 같은
+# > test 정확도를 최종 성능으로 보고하면 test-set selection bias가 생긴다.
+
 # %%
 
 if MAIN:
@@ -280,6 +291,16 @@ if MAIN:
         )
         fig.show()
 
+# %% [markdown]
+# > [!NOTE]
+# > **PCA 그림이 보여 주는 것의 범위.** PCA를 맞추는 과정은 비지도학습이지만, 점을
+# > true/false로 색칠하고 분리를 해석하는 단계에는 정답 라벨이 쓰인다. 따라서 2-D 분리는
+# > "truth를 비지도 방식으로 발견했다"거나 새 분포에서도 하나의 보편적 truth direction이
+# > 존재한다는 증거가 아니다. 정량 결론에는 held-out AUROC, 문장 길이·부정형·주제 같은
+# > nuisance-feature control, prompt/model 간 전이 평가가 필요하다. 계산 면에서도 여기처럼
+# > `n_samples << d_model`이면 `d_model x d_model` 공분산을 고유분해하기보다 centered `X`의
+# > thin SVD(`torch.linalg.svd`)나 `torch.pca_lowrank`가 훨씬 적은 메모리와 연산을 쓴다.
+
 # %%
 
 if MAIN:
@@ -403,6 +424,15 @@ if MAIN:
         test_labels[name] = labs[perm[n_train:]]
 
         print(f"{name}: train={n_train}, test={n - n_train}")
+
+# %% [markdown]
+# > [!WARNING]
+# > **현재 `MMProbe`의 accuracy에는 midpoint가 빠져 있다.** 두 클래스 평균을
+# > `mu_pos`, `mu_neg`라 할 때 표준 difference-of-means/nearest-centroid 판정은
+# > `(x - (mu_pos + mu_neg) / 2) @ (mu_pos - mu_neg) > 0`이다. 아래 구현은 `x @ direction > 0`
+# > (sigmoid 후 0.5 threshold)을 사용하므로 residual stream의 원점이 우연히 midpoint가 아닌
+# > 한 다른 분류기다. 앞의 `layer_sweep_accuracy` 구현이 올바른 기준을 보여 준다. 상수 offset은
+# > 순위를 바꾸지 않아 AUROC에는 영향이 없지만, accuracy·확률 보정·0.5 threshold에는 영향을 준다.
 
 # %%
 
@@ -581,6 +611,18 @@ if MAIN:
             width=600,
         )
         fig.show()
+
+# %% [markdown]
+# > [!WARNING]
+# > **표준화된 LR 계수와 residual-stream 방향을 혼동하면 안 된다.** `sklearn`이 학습한
+# > `coef_`는 `z = (x - mean) / scale` 좌표의 가중치다
+# > ([`StandardScaler`](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html)).
+# > 원래 activation 좌표에서 같은 logit을 만드는 방향은 `w_raw = w_scaled / scale`, 절편은
+# > `b_raw = b_scaled - (w_scaled / scale) @ mean`이다. 따라서 아래처럼 `lr_probe.direction`
+# > (`w_scaled`)을 raw MM 방향과 cosine 비교하거나 residual stream에 직접 더하는 것은 좌표계가
+# > 맞지 않는다. 예측 함수는 내부에서 표준화하므로 괜찮지만, **방향 비교와 개입에는 `w_raw`를
+# > 사용해야 한다.** 또한 feature centering만으로 최적 intercept가 일반적으로 0이 되지는 않는다;
+# > `fit_intercept=False`는 balanced/symmetric한 이 실험의 가정이지 LR의 일반 성질이 아니다.
 
 # %%
 
@@ -986,6 +1028,20 @@ if MAIN:
         fig.add_hline(y=0, line_dash="dash", line_color="gray")
         fig.show()
 
+# %% [markdown]
+# > [!WARNING]
+# > **이 실험은 activation *patching*도, natural indirect effect(NIE) 추정도 아니다.**
+# > 소스 예시의 activation으로 교체하는 patching과 달리, 아래 hook은 학습된 벡터를 여러 층·토큰에
+# > 가산하는 activation steering이다. 출력이 변하면 그 방향에 대한 모델의 *interventional
+# > sensitivity*는 보이지만, 모델이 자연 실행에서 바로 그 변수를 사용했다거나 유일한 인과
+# > 메커니즘이라는 결론까지 나오지는 않는다. subspace intervention이 dormant pathway를 켤 수도
+# > 있다는 반례도 있다
+# > ([Makelov et al., ICLR 2024](https://openreview.net/forum?id=Ebt7JgMHv1)). 뒤의 `mm_nie`와
+# > `lr_nie`는 단순한 평균 score difference이므로 인과매개분석의 NIE가 아니라
+# > **additive intervention effect**라고 읽어야 한다. 재현 시에는 suffix 길이도
+# > `tokenizer.encode(..., add_special_tokens=False)`로 구해 BOS가 섞이지 않게 하고, 실제 token
+# > ID subsequence를 찾아 위치를 검증하는 편이 안전하다.
+
 # %%
 
 if MAIN:
@@ -1192,6 +1248,22 @@ if MAIN:
     true_facts = facts_df[facts_df["label"] == 1][:512]
 
     display(true_facts.head(5))
+
+# %% [markdown]
+# > [!IMPORTANT]
+# > **`honest`/`dishonest` 지시문 라벨은 실제 기만 행동의 관측 라벨이 아니다.** 아래 paired
+# > 데이터는 같은 정답 문장을 두 system prompt 아래에 넣으므로, probe가 intention/deception보다
+# > 리터럴한 persona 지시문이나 chat-template 흔적을 읽어도 높은 점수를 얻을 수 있다. 사실 단위
+# > train/test split만으로 이 shortcut은 제거되지 않는다. 템플릿 자체를 hold out하고, 노골적인
+# > `honest`/`deceptive` 표현을 바꾼 paraphrase test와 실제 생성문 행동 검증을 함께 해야 한다.
+# > 더 근본적으로 deception은 거짓 문장을 말하지 않고도 가능하며, 2026년 연구에서는 truth probe가
+# > 이런 non-lying deception을 훨씬 잘 놓쳤다
+# > ([Berger, 2026](https://arxiv.org/abs/2603.10003)). 그러므로 truth, false utterance,
+# > deceptive policy를 서로 다른 표적으로 구분해야 한다.
+# > 또 probe score를 학습 보상으로 직접 최적화하는 상황은 단순 OOD 평가와 다르다. RL로 정적
+# > latent monitor를 회피하게 한 실험에서는 token-level monitor가 취약했고, max/attention 집계는
+# > 그 설정에서 더 강했지만 보편적 안전 보장은 아니었다
+# > ([Gupta & Jenner, 2025](https://arxiv.org/abs/2506.14261)).
 
 # %%
 
@@ -1504,6 +1576,16 @@ if MAIN:
     with open(ai_liar_path) as f:
         ai_liar_data = json.load(f)
 
+# %% [markdown]
+# > [!NOTE]
+# > **아래 8B 평가는 10개 scenario의 탐색적 sanity check다.** honest/deceptive 두 행은 같은
+# > scenario에서 나온 paired observations이므로 `n=20`개의 독립 표본으로 취급하면 안 된다.
+# > scenario 단위 split 또는 cluster bootstrap으로 AUROC의 불확실성을 보고하고, seed와 전체
+# > 데이터 평가를 추가해야 한다. 특히 honest negative가 10개뿐이면 1% FPR 같은 운영점은 경험적으로
+# > 추정할 수 없다(관측 가능한 최소 비영(非零) FPR부터 약 10%). 원 논문의 0.96--0.999 AUROC와
+# > 1% FPR 결과는 Llama-3.3-70B 및 훨씬 큰 평가셋의 결과이지 이 셀로 재현되는 수치가 아니다
+# > ([Goldowsky-Dill et al., 2025](https://arxiv.org/abs/2502.03407)).
+
 
 if MAIN:
     # Phase 1: Score all examples, using assistant-only token masking
@@ -1596,6 +1678,15 @@ if MAIN:
 
     # Load the pre-trained detector from the deception-detection repo
     detector_path = DD_ROOT / "example_results" / "instructed_pairs" / "detector.pt"
+
+# %% [markdown]
+# > [!CAUTION]
+# > **체크포인트 공급망 주의.** 바로 아래 `pickle.load`는 파일 역직렬화 중 임의 코드를 실행할 수
+# > 있다. 신뢰한 upstream의 고정 commit에서 받은 파일인지 확인하고 SHA-256을 기록한 뒤에만
+# > 실행해야 한다. 일반 원칙은 Python 공식 문서의
+# > [`pickle` 경고](https://docs.python.org/3/library/pickle.html#module-pickle)를 참고하라. 배포용
+# > 아티팩트는 가능하면 `safetensors` 또는 명시적 tensor-only 포맷으로 변환하는 편이 낫다.
+
     with open(detector_path, "rb") as f:
         detector_data = pickle.load(f)
 
@@ -1781,6 +1872,18 @@ if MAIN:
         HS_N_LAYERS = hs_model.config.num_hidden_layers
         HS_D_MODEL = hs_model.config.hidden_size
         print(f"Layers: {HS_N_LAYERS}, d_model: {HS_D_MODEL}, probe layer: {HS_LAYER}")
+
+# %% [markdown]
+# > [!IMPORTANT]
+# > **Section 5는 논문의 축소 교육판이지 수치 재현이 아니다.** 원 논문은 Llama-3.3-70B의
+# > pre-layer-norm residual stream, 80개 중 layer 31을 5-fold CV로 선택하고 3개 seed 및 95% CI를
+# > 사용했다. 또한 Attention이 development 평균에서는 선택됐지만 test에서는 Softmax가 약간 더
+# > 높았고, 최선 probe도 1% FPR에서 TPR이 약 43%여서 단독 차단기보다 cascade의 1차 filter로
+# > 제안됐다
+# > ([McKenzie et al., NeurIPS 2025](https://arxiv.org/abs/2506.10805)). 여기의 8B/layer-16/단일-seed
+# > 결과를 논문 성능으로 인용하면 안 된다. 더구나 Hugging Face 데이터에는 `pair_id`가 있는데,
+# > 아래처럼 class별 index를 따로 섞으면 같은 high/low 생성 pair가 train과 test 양쪽에 갈 수 있다.
+# > `pair_id`로 묶는 group split(또는 공식 split)을 사용해야 leakage를 피할 수 있다.
 
 # %%
 
@@ -2192,6 +2295,16 @@ if MAIN:
             for cfg in ood_results:
                 row += f"{ood_results[cfg][m]:>{col_w}.3f}"
             print(row)
+
+# %% [markdown]
+# > [!WARNING]
+# > **attention weight 자체는 token의 class 기여도가 아니다.** 한 head일 때 이 probe의 logit은
+# > `b + sum_i alpha_i * (x_i @ w_out)`로 분해된다. 아래 그림은 `alpha_i`만 그리므로, weight가
+# > 커도 `x_i @ w_out`이 0에 가깝거나 반대 부호이면 해당 token의 high-stakes logit 기여는 작거나
+# > 음수일 수 있다. 원 논문도 attention score와 concept/value score를 함께 시각화한다. 따라서
+# > `alpha_i * (x_i @ w_out)` 기여도, token ablation/leave-one-out, 여러 seed에서의 안정성을 함께
+# > 확인해야 한다. attention을 곧바로 faithful explanation으로 보는 일반적 한계는
+# > [Jain & Wallace (NAACL 2019)](https://aclanthology.org/N19-1357/)를 참고하라.
 
 # %%
 
