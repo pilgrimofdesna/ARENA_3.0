@@ -1,0 +1,42 @@
+{
+  "notebooks": [
+    {
+      "notebook": "00_START_HERE.ipynb",
+      "cells": 7,
+      "code_cells": 3,
+      "executed": true,
+      "errors": 0
+    },
+    {
+      "notebook": "01_design_and_probes.ipynb",
+      "cells": 16,
+      "code_cells": 8,
+      "executed": true,
+      "errors": 0
+    },
+    {
+      "notebook": "02_real_truth_experiment.ipynb",
+      "cells": 14,
+      "code_cells": 7,
+      "executed": true,
+      "errors": 0
+    },
+    {
+      "notebook": "03_intervention_and_claims.ipynb",
+      "cells": 10,
+      "code_cells": 4,
+      "executed": true,
+      "errors": 0
+    },
+    {
+      "notebook": "04_deception_attention.ipynb",
+      "cells": 30,
+      "code_cells": 15,
+      "executed": true,
+      "errors": 0
+    }
+  ],
+  "python_syntax": "pass",
+  "credential_pattern_scan": "pass",
+  "helper_unit_tests": 12
+}

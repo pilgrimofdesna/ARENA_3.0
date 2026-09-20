@@ -1,0 +1,469 @@
+statement,label,group,domain,split
+The city of Addis Ababa is in Ethiopia.,1,Addis Ababa,cities,train
+The city of Addis Ababa is in Indonesia.,0,Addis Ababa,cities,train
+The city of Niigata is in Japan.,1,Niigata,cities,train
+The city of Niigata is in Yemen.,0,Niigata,cities,train
+The city of Makati City is in the Philippines.,1,Makati City,cities,test
+The city of Makati City is in India.,0,Makati City,cities,test
+The city of Niamey is in Niger.,1,Niamey,cities,val
+The city of Niamey is in China.,0,Niamey,cities,val
+The city of South Tangerang is in Indonesia.,1,South Tangerang,cities,train
+The city of South Tangerang is in India.,0,South Tangerang,cities,train
+The city of Konya is in Turkey.,1,Konya,cities,test
+The city of Konya is in Russia.,0,Konya,cities,test
+The city of Macapa is in Brazil.,1,Macapa,cities,test
+The city of Macapa is in China.,0,Macapa,cities,test
+The city of Poznan is in Poland.,1,Poznan,cities,train
+The city of Poznan is in Mexico.,0,Poznan,cities,train
+The city of Busan is in South Korea.,1,Busan,cities,train
+The city of Busan is in Brazil.,0,Busan,cities,train
+The city of Mosul is in Iraq.,1,Mosul,cities,train
+The city of Mosul is in China.,0,Mosul,cities,train
+The city of Lahore is in Pakistan.,1,Lahore,cities,train
+The city of Lahore is in China.,0,Lahore,cities,train
+The city of Weifang is in China.,1,Weifang,cities,test
+The city of Weifang is in Indonesia.,0,Weifang,cities,test
+The city of Porto Velho is in Brazil.,1,Porto Velho,cities,train
+The city of Porto Velho is in Algeria.,0,Porto Velho,cities,train
+The city of Sevastopol is in Ukraine.,1,Sevastopol,cities,train
+The city of Sevastopol is in Pakistan.,0,Sevastopol,cities,train
+The city of Callao is in Peru.,1,Callao,cities,test
+The city of Callao is in Myanmar.,0,Callao,cities,test
+The city of Cebu City is in the Philippines.,1,Cebu City,cities,train
+The city of Cebu City is in China.,0,Cebu City,cities,train
+The city of Cucuta is in Colombia.,1,Cucuta,cities,train
+The city of Cucuta is in India.,0,Cucuta,cities,train
+The city of Linfen is in China.,1,Linfen,cities,val
+The city of Linfen is in India.,0,Linfen,cities,val
+The city of Aparecida de Goiania is in Brazil.,1,Aparecida de Goiania,cities,train
+The city of Aparecida de Goiania is in China.,0,Aparecida de Goiania,cities,train
+The city of Vilnius is in Lithuania.,1,Vilnius,cities,val
+The city of Vilnius is in China.,0,Vilnius,cities,val
+The city of Bareilly is in India.,1,Bareilly,cities,train
+The city of Bareilly is in Mozambique.,0,Bareilly,cities,train
+The city of Khabarovsk is in Russia.,1,Khabarovsk,cities,train
+The city of Khabarovsk is in Saudi Arabia.,0,Khabarovsk,cities,train
+The city of Algiers is in Algeria.,1,Algiers,cities,train
+The city of Algiers is in China.,0,Algiers,cities,train
+The city of Kakamega is in Kenya.,1,Kakamega,cities,test
+The city of Kakamega is in Russia.,0,Kakamega,cities,test
+The city of Joao Pessoa is in Brazil.,1,Joao Pessoa,cities,val
+The city of Joao Pessoa is in South Africa.,0,Joao Pessoa,cities,val
+The city of Zhoushan is in China.,1,Zhoushan,cities,train
+The city of Zhoushan is in the Philippines.,0,Zhoushan,cities,train
+The city of Hegang is in China.,1,Hegang,cities,train
+The city of Hegang is in Russia.,0,Hegang,cities,train
+The city of Warri is in Nigeria.,1,Warri,cities,test
+The city of Warri is in China.,0,Warri,cities,test
+The city of Cheongju-si is in South Korea.,1,Cheongju-si,cities,test
+The city of Cheongju-si is in India.,0,Cheongju-si,cities,test
+The city of Tucson is in the United States.,1,Tucson,cities,train
+The city of Tucson is in Canada.,0,Tucson,cities,train
+The city of Abobo is in Côte d'Ivoire.,1,Abobo,cities,train
+The city of Abobo is in India.,0,Abobo,cities,train
+The city of Taiz is in Yemen.,1,Taiz,cities,val
+The city of Taiz is in Burkina Faso.,0,Taiz,cities,val
+The city of Xianyang is in China.,1,Xianyang,cities,train
+The city of Xianyang is in Russia.,0,Xianyang,cities,train
+The city of Bengbu is in China.,1,Bengbu,cities,test
+The city of Bengbu is in India.,0,Bengbu,cities,test
+The city of Calgary is in Canada.,1,Calgary,cities,train
+The city of Calgary is in India.,0,Calgary,cities,train
+The city of Chattogram is in Bangladesh.,1,Chattogram,cities,train
+The city of Chattogram is in China.,0,Chattogram,cities,train
+The city of Sendai is in Japan.,1,Sendai,cities,val
+The city of Sendai is in Brazil.,0,Sendai,cities,val
+The city of Goeteborg is in Sweden.,1,Goeteborg,cities,val
+The city of Goeteborg is in South Korea.,0,Goeteborg,cities,val
+The city of Sapporo is in Japan.,1,Sapporo,cities,val
+The city of Sapporo is in Mexico.,0,Sapporo,cities,val
+The city of San Luis Potosi is in Mexico.,1,San Luis Potosi,cities,train
+The city of San Luis Potosi is in the Democratic Republic of the Congo.,0,San Luis Potosi,cities,train
+The city of Kaduna is in Nigeria.,1,Kaduna,cities,train
+The city of Kaduna is in Turkey.,0,Kaduna,cities,train
+The city of Indore is in India.,1,Indore,cities,train
+The city of Indore is in Turkey.,0,Indore,cities,train
+The city of Hanzhong is in China.,1,Hanzhong,cities,train
+The city of Hanzhong is in Iran.,0,Hanzhong,cities,train
+The city of Douala is in Cameroon.,1,Douala,cities,train
+The city of Douala is in Russia.,0,Douala,cities,train
+The city of Laibin is in China.,1,Laibin,cities,val
+The city of Laibin is in Ethiopia.,0,Laibin,cities,val
+The city of Shizuoka is in Japan.,1,Shizuoka,cities,test
+The city of Shizuoka is in China.,0,Shizuoka,cities,test
+The city of Hamhung is in North Korea.,1,Hamhung,cities,test
+The city of Hamhung is in China.,0,Hamhung,cities,test
+The city of Aleppo is in Syria.,1,Aleppo,cities,train
+The city of Aleppo is in China.,0,Aleppo,cities,train
+The city of Qinhuangdao is in China.,1,Qinhuangdao,cities,train
+The city of Qinhuangdao is in Eritrea.,0,Qinhuangdao,cities,train
+The city of Beijing is in China.,1,Beijing,cities,test
+The city of Beijing is in Ghana.,0,Beijing,cities,test
+The city of Guwahati is in India.,1,Guwahati,cities,train
+The city of Guwahati is in China.,0,Guwahati,cities,train
+The city of Kermanshah is in Iran.,1,Kermanshah,cities,train
+The city of Kermanshah is in China.,0,Kermanshah,cities,train
+The city of Khulna is in Bangladesh.,1,Khulna,cities,train
+The city of Khulna is in Japan.,0,Khulna,cities,train
+The city of Xiamen is in China.,1,Xiamen,cities,train
+The city of Xiamen is in Pakistan.,0,Xiamen,cities,train
+The city of Shenzhen is in China.,1,Shenzhen,cities,val
+The city of Shenzhen is in Mexico.,0,Shenzhen,cities,val
+The city of Lubumbashi is in the Democratic Republic of the Congo.,1,Lubumbashi,cities,test
+The city of Lubumbashi is in India.,0,Lubumbashi,cities,test
+The city of Lilongwe is in Malawi.,1,Lilongwe,cities,val
+The city of Lilongwe is in Turkey.,0,Lilongwe,cities,val
+The city of Multan is in Pakistan.,1,Multan,cities,train
+The city of Multan is in Ecuador.,0,Multan,cities,train
+The city of Kitakyushu is in Japan.,1,Kitakyushu,cities,test
+The city of Kitakyushu is in Yemen.,0,Kitakyushu,cities,test
+The city of Onitsha is in Nigeria.,1,Onitsha,cities,train
+The city of Onitsha is in China.,0,Onitsha,cities,train
+The city of Shanghai is in China.,1,Shanghai,cities,train
+The city of Shanghai is in Mexico.,0,Shanghai,cities,train
+The city of Yichang is in China.,1,Yichang,cities,train
+The city of Yichang is in Japan.,0,Yichang,cities,train
+The city of Guang'an is in China.,1,Guang'an,cities,val
+The city of Guang'an is in Germany.,0,Guang'an,cities,val
+The city of Latakia is in Syria.,1,Latakia,cities,val
+The city of Latakia is in Somalia.,0,Latakia,cities,val
+The city of Maracaibo is in Venezuela.,1,Maracaibo,cities,val
+The city of Maracaibo is in Russia.,0,Maracaibo,cities,val
+The city of Zhangzhou is in China.,1,Zhangzhou,cities,test
+The city of Zhangzhou is in Nicaragua.,0,Zhangzhou,cities,test
+The city of Kalininskiy is in Russia.,1,Kalininskiy,cities,val
+The city of Kalininskiy is in Japan.,0,Kalininskiy,cities,val
+The city of Gwalior is in India.,1,Gwalior,cities,val
+The city of Gwalior is in China.,0,Gwalior,cities,val
+The city of Bekasi is in Indonesia.,1,Bekasi,cities,test
+The city of Bekasi is in China.,0,Bekasi,cities,test
+The city of Johor Bahru is in Malaysia.,1,Johor Bahru,cities,train
+The city of Johor Bahru is in Cuba.,0,Johor Bahru,cities,train
+The city of Amman is in Jordan.,1,Amman,cities,train
+The city of Amman is in Malaysia.,0,Amman,cities,train
+The city of Hachioji is in Japan.,1,Hachioji,cities,test
+The city of Hachioji is in Mexico.,0,Hachioji,cities,test
+The city of Fukuoka is in Japan.,1,Fukuoka,cities,val
+The city of Fukuoka is in Senegal.,0,Fukuoka,cities,val
+The city of Antananarivo is in Madagascar.,1,Antananarivo,cities,test
+The city of Antananarivo is in Germany.,0,Antananarivo,cities,test
+The city of Lome is in Togo.,1,Lome,cities,train
+The city of Lome is in Yemen.,0,Lome,cities,train
+The city of Krasnoyarsk is in Russia.,1,Krasnoyarsk,cities,train
+The city of Krasnoyarsk is in India.,0,Krasnoyarsk,cities,train
+The city of Quzhou is in China.,1,Quzhou,cities,train
+The city of Quzhou is in Vietnam.,0,Quzhou,cities,train
+The city of Pingliang is in China.,1,Pingliang,cities,train
+The city of Pingliang is in Tanzania.,0,Pingliang,cities,train
+The city of Samarinda is in Indonesia.,1,Samarinda,cities,val
+The city of Samarinda is in Iraq.,0,Samarinda,cities,val
+The city of Oslo is in Norway.,1,Oslo,cities,test
+The city of Oslo is in Venezuela.,0,Oslo,cities,test
+The city of Benoni is in South Africa.,1,Benoni,cities,test
+The city of Benoni is in the Philippines.,0,Benoni,cities,test
+The city of Wuzhou is in China.,1,Wuzhou,cities,train
+The city of Wuzhou is in Syria.,0,Wuzhou,cities,train
+The city of Wuwei is in China.,1,Wuwei,cities,train
+The city of Wuwei is in India.,0,Wuwei,cities,train
+The city of Jiangyin is in China.,1,Jiangyin,cities,train
+The city of Jiangyin is in Bulgaria.,0,Jiangyin,cities,train
+The city of Sorocaba is in Brazil.,1,Sorocaba,cities,train
+The city of Sorocaba is in Mexico.,0,Sorocaba,cities,train
+The city of Asansol is in India.,1,Asansol,cities,test
+The city of Asansol is in China.,0,Asansol,cities,test
+The city of Fortaleza is in Brazil.,1,Fortaleza,cities,train
+The city of Fortaleza is in Honduras.,0,Fortaleza,cities,train
+The city of Kampala is in Uganda.,1,Kampala,cities,test
+The city of Kampala is in Turkey.,0,Kampala,cities,test
+The city of Uberlandia is in Brazil.,1,Uberlandia,cities,test
+The city of Uberlandia is in India.,0,Uberlandia,cities,test
+The city of Curitiba is in Brazil.,1,Curitiba,cities,train
+The city of Curitiba is in India.,0,Curitiba,cities,train
+The city of Tomsk is in Russia.,1,Tomsk,cities,train
+The city of Tomsk is in Ghana.,0,Tomsk,cities,train
+The city of Najran is in Saudi Arabia.,1,Najran,cities,train
+The city of Najran is in India.,0,Najran,cities,train
+The city of Yibin is in China.,1,Yibin,cities,val
+The city of Yibin is in Brazil.,0,Yibin,cities,val
+The city of Zapopan is in Mexico.,1,Zapopan,cities,train
+The city of Zapopan is in China.,0,Zapopan,cities,train
+The city of Dhanbad is in India.,1,Dhanbad,cities,train
+The city of Dhanbad is in Kenya.,0,Dhanbad,cities,train
+The city of Victoria de Durango is in Mexico.,1,Victoria de Durango,cities,train
+The city of Victoria de Durango is in Ghana.,0,Victoria de Durango,cities,train
+The city of Nairobi is in Kenya.,1,Nairobi,cities,train
+The city of Nairobi is in Mexico.,0,Nairobi,cities,train
+The city of Jamshedpur is in India.,1,Jamshedpur,cities,test
+The city of Jamshedpur is in China.,0,Jamshedpur,cities,test
+The city of Uskudar is in Turkey.,1,Uskudar,cities,train
+The city of Uskudar is in Bulgaria.,0,Uskudar,cities,train
+The city of Leon de los Aldama is in Mexico.,1,Leon de los Aldama,cities,train
+The city of Leon de los Aldama is in China.,0,Leon de los Aldama,cities,train
+The city of Bikaner is in India.,1,Bikaner,cities,val
+The city of Bikaner is in South Korea.,0,Bikaner,cities,val
+The city of Pretoria is in South Africa.,1,Pretoria,cities,train
+The city of Pretoria is in India.,0,Pretoria,cities,train
+The city of Pietermaritzburg is in South Africa.,1,Pietermaritzburg,cities,train
+The city of Pietermaritzburg is in China.,0,Pietermaritzburg,cities,train
+The city of Sao Paulo is in Brazil.,1,Sao Paulo,cities,train
+The city of Sao Paulo is in China.,0,Sao Paulo,cities,train
+The city of Lianyungang is in China.,1,Lianyungang,cities,val
+The city of Lianyungang is in the Philippines.,0,Lianyungang,cities,val
+The city of Jinan is in China.,1,Jinan,cities,train
+The city of Jinan is in Rwanda.,0,Jinan,cities,train
+The city of Winnipeg is in Canada.,1,Winnipeg,cities,train
+The city of Winnipeg is in Mexico.,0,Winnipeg,cities,train
+The city of Nagpur is in India.,1,Nagpur,cities,train
+The city of Nagpur is in Denmark.,0,Nagpur,cities,train
+The city of Shangluo is in China.,1,Shangluo,cities,train
+The city of Shangluo is in Honduras.,0,Shangluo,cities,train
+The city of Baise is in China.,1,Baise,cities,val
+The city of Baise is in Japan.,0,Baise,cities,val
+The city of Brasilia is in Brazil.,1,Brasilia,cities,val
+The city of Brasilia is in South Korea.,0,Brasilia,cities,val
+The city of Ouagadougou is in Burkina Faso.,1,Ouagadougou,cities,train
+The city of Ouagadougou is in China.,0,Ouagadougou,cities,train
+The city of Mysore is in India.,1,Mysore,cities,train
+The city of Mysore is in Mexico.,0,Mysore,cities,train
+The city of Coimbatore is in India.,1,Coimbatore,cities,val
+The city of Coimbatore is in Malaysia.,0,Coimbatore,cities,val
+The city of Amritsar is in India.,1,Amritsar,cities,train
+The city of Amritsar is in Moldova.,0,Amritsar,cities,train
+The city of Durban is in South Africa.,1,Durban,cities,train
+The city of Durban is in Ukraine.,0,Durban,cities,train
+The city of Shangrao is in China.,1,Shangrao,cities,train
+The city of Shangrao is in Russia.,0,Shangrao,cities,train
+The city of Xingtai is in China.,1,Xingtai,cities,train
+The city of Xingtai is in Russia.,0,Xingtai,cities,train
+The city of Reynosa is in Mexico.,1,Reynosa,cities,train
+The city of Reynosa is in China.,0,Reynosa,cities,train
+The city of Hengyang is in China.,1,Hengyang,cities,train
+The city of Hengyang is in Turkey.,0,Hengyang,cities,train
+The city of Makati City is not in the Philippines.,0,Makati City,neg_cities,ood
+The city of Makati City is not in India.,1,Makati City,neg_cities,ood
+The city of Konya is not in Turkey.,0,Konya,neg_cities,ood
+The city of Konya is not in Russia.,1,Konya,neg_cities,ood
+The city of Macapa is not in Brazil.,0,Macapa,neg_cities,ood
+The city of Macapa is not in China.,1,Macapa,neg_cities,ood
+The city of Weifang is not in China.,0,Weifang,neg_cities,ood
+The city of Weifang is not in Indonesia.,1,Weifang,neg_cities,ood
+The city of Callao is not in Peru.,0,Callao,neg_cities,ood
+The city of Callao is not in Myanmar.,1,Callao,neg_cities,ood
+The city of Kakamega is not in Kenya.,0,Kakamega,neg_cities,ood
+The city of Kakamega is not in Russia.,1,Kakamega,neg_cities,ood
+The city of Warri is not in Nigeria.,0,Warri,neg_cities,ood
+The city of Warri is not in China.,1,Warri,neg_cities,ood
+The city of Cheongju-si is not in South Korea.,0,Cheongju-si,neg_cities,ood
+The city of Cheongju-si is not in India.,1,Cheongju-si,neg_cities,ood
+The city of Bengbu is not in China.,0,Bengbu,neg_cities,ood
+The city of Bengbu is not in India.,1,Bengbu,neg_cities,ood
+The city of Shizuoka is not in Japan.,0,Shizuoka,neg_cities,ood
+The city of Shizuoka is not in China.,1,Shizuoka,neg_cities,ood
+The city of Hamhung is not in North Korea.,0,Hamhung,neg_cities,ood
+The city of Hamhung is not in China.,1,Hamhung,neg_cities,ood
+The city of Beijing is not in China.,0,Beijing,neg_cities,ood
+The city of Beijing is not in Ghana.,1,Beijing,neg_cities,ood
+The city of Lubumbashi is not in the Democratic Republic of the Congo.,0,Lubumbashi,neg_cities,ood
+The city of Lubumbashi is not in India.,1,Lubumbashi,neg_cities,ood
+The city of Kitakyushu is not in Japan.,0,Kitakyushu,neg_cities,ood
+The city of Kitakyushu is not in Yemen.,1,Kitakyushu,neg_cities,ood
+The city of Zhangzhou is not in China.,0,Zhangzhou,neg_cities,ood
+The city of Zhangzhou is not in Nicaragua.,1,Zhangzhou,neg_cities,ood
+The city of Bekasi is not in Indonesia.,0,Bekasi,neg_cities,ood
+The city of Bekasi is not in China.,1,Bekasi,neg_cities,ood
+The city of Hachioji is not in Japan.,0,Hachioji,neg_cities,ood
+The city of Hachioji is not in Mexico.,1,Hachioji,neg_cities,ood
+The city of Antananarivo is not in Madagascar.,0,Antananarivo,neg_cities,ood
+The city of Antananarivo is not in Germany.,1,Antananarivo,neg_cities,ood
+The city of Oslo is not in Norway.,0,Oslo,neg_cities,ood
+The city of Oslo is not in Venezuela.,1,Oslo,neg_cities,ood
+The city of Benoni is not in South Africa.,0,Benoni,neg_cities,ood
+The city of Benoni is not in the Philippines.,1,Benoni,neg_cities,ood
+The city of Asansol is not in India.,0,Asansol,neg_cities,ood
+The city of Asansol is not in China.,1,Asansol,neg_cities,ood
+The city of Kampala is not in Uganda.,0,Kampala,neg_cities,ood
+The city of Kampala is not in Turkey.,1,Kampala,neg_cities,ood
+The city of Uberlandia is not in Brazil.,0,Uberlandia,neg_cities,ood
+The city of Uberlandia is not in India.,1,Uberlandia,neg_cities,ood
+The city of Jamshedpur is not in India.,0,Jamshedpur,neg_cities,ood
+The city of Jamshedpur is not in China.,1,Jamshedpur,neg_cities,ood
+The Spanish word 'de' means 'now'.,0,de,sp_en_trans,ood
+The Spanish word 'decir' means 'order'.,0,decir,sp_en_trans,ood
+The Spanish word 'mano' means 'too'.,0,mano,sp_en_trans,ood
+The Spanish word 'alto' means 'space'.,0,alto,sp_en_trans,ood
+The Spanish word 'hombre' means 'simple'.,0,hombre,sp_en_trans,ood
+The Spanish word 'luz' means 'week'.,0,luz,sp_en_trans,ood
+The Spanish word 'construir' means 'to build'.,1,construir,sp_en_trans,ood
+The Spanish word 'nombre' means 'name'.,1,nombre,sp_en_trans,ood
+The Spanish word 'ayudar' means 'to help'.,1,ayudar,sp_en_trans,ood
+The Spanish word 'mismo' means 'to write'.,0,mismo,sp_en_trans,ood
+The Spanish word 'escribir' means 'to write'.,1,escribir,sp_en_trans,ood
+The Spanish word 'largo' means 'history'.,0,largo,sp_en_trans,ood
+The Spanish word 'dos' means 'enemy'.,0,dos,sp_en_trans,ood
+The Spanish word 'ciencia' means 'to buy'.,0,ciencia,sp_en_trans,ood
+The Spanish word 'escuchar' means 'market'.,0,escuchar,sp_en_trans,ood
+The Spanish word 'caballo' means 'horse'.,1,caballo,sp_en_trans,ood
+The Spanish word 'parecer' means 'to seem'.,1,parecer,sp_en_trans,ood
+The Spanish word 'blanco' means 'to think'.,0,blanco,sp_en_trans,ood
+The Spanish word 'llano' means 'chair'.,0,llano,sp_en_trans,ood
+The Spanish word 'rojo' means 'red'.,1,rojo,sp_en_trans,ood
+The Spanish word 'negro' means 'black'.,1,negro,sp_en_trans,ood
+The Spanish word 'rey' means 'king'.,1,rey,sp_en_trans,ood
+The Spanish word 'decidir' means 'to give'.,0,decidir,sp_en_trans,ood
+The Spanish word 'prueba' means 'test'.,1,prueba,sp_en_trans,ood
+The Spanish word 'barco' means 'hello'.,0,barco,sp_en_trans,ood
+The Spanish word 'mil' means 'to eat'.,0,mil,sp_en_trans,ood
+The Spanish word 'potencia' means 'power'.,1,potencia,sp_en_trans,ood
+The Spanish word 'estrella' means 'star'.,1,estrella,sp_en_trans,ood
+The Spanish word 'belleza' means 'beauty'.,1,belleza,sp_en_trans,ood
+The Spanish word 'desarrollar' means 'to develop'.,1,desarrollar,sp_en_trans,ood
+The Spanish word 'cinco' means 'five'.,1,cinco,sp_en_trans,ood
+The Spanish word 'amar' means 'teeth'.,0,amar,sp_en_trans,ood
+The Spanish word 'dinero' means 'mouth'.,0,dinero,sp_en_trans,ood
+The Spanish word 'mapa' means 'map'.,1,mapa,sp_en_trans,ood
+The Spanish word 'gobernar' means 'to eat'.,0,gobernar,sp_en_trans,ood
+The Spanish word 'voz' means 'voice'.,1,voz,sp_en_trans,ood
+The Spanish word 'hermano' means 'silver'.,0,hermano,sp_en_trans,ood
+The Spanish word 'hablar' means 'to speak'.,1,hablar,sp_en_trans,ood
+The Spanish word 'hielo' means 'ice'.,1,hielo,sp_en_trans,ood
+The Spanish word 'ola' means 'wave'.,1,ola,sp_en_trans,ood
+The Spanish word 'bosque' means 'forest'.,1,bosque,sp_en_trans,ood
+The Spanish word 'tienda' means 'insect'.,0,tienda,sp_en_trans,ood
+The Spanish word 'vidrio' means 'to hear'.,0,vidrio,sp_en_trans,ood
+The Spanish word 'flor' means 'market'.,0,flor,sp_en_trans,ood
+The Spanish word 'lago' means 'month'.,0,lago,sp_en_trans,ood
+The Spanish word 'momento' means 'moment'.,1,momento,sp_en_trans,ood
+The Spanish word 'clave' means 'rose'.,0,clave,sp_en_trans,ood
+The Spanish word 'cocinero' means 'cook'.,1,cocinero,sp_en_trans,ood
+The Spanish word 'temperatura' means 'hand'.,0,temperatura,sp_en_trans,ood
+The Spanish word 'ala' means 'wing'.,1,ala,sp_en_trans,ood
+The Spanish word 'grasa' means 'new'.,0,grasa,sp_en_trans,ood
+The Spanish word 'mercado' means 'market'.,1,mercado,sp_en_trans,ood
+The Spanish word 'manzana' means 'hand'.,0,manzana,sp_en_trans,ood
+The Spanish word 'tarjeta' means 'bear'.,0,tarjeta,sp_en_trans,ood
+The Spanish word 'ganar' means 'to use'.,0,ganar,sp_en_trans,ood
+The Spanish word 'continuar' means 'coat'.,0,continuar,sp_en_trans,ood
+The Spanish word 'burro' means 'donkey'.,1,burro,sp_en_trans,ood
+The Spanish word 'ballena' means 'whale'.,1,ballena,sp_en_trans,ood
+The Spanish word 'zorro' means 'shell'.,0,zorro,sp_en_trans,ood
+The Spanish word 'tigre' means 'cow'.,0,tigre,sp_en_trans,ood
+Fifty-one is larger than fifty-seven.,0,51:57,larger_than,ood
+Fifty-one is larger than sixty-six.,0,51:66,larger_than,ood
+Fifty-one is larger than seventy-one.,0,51:71,larger_than,ood
+Fifty-one is larger than seventy-four.,0,51:74,larger_than,ood
+Fifty-one is larger than eighty-five.,0,51:85,larger_than,ood
+Fifty-one is larger than ninety-nine.,0,51:99,larger_than,ood
+Fifty-two is larger than seventy-five.,0,52:75,larger_than,ood
+Fifty-two is larger than ninety-seven.,0,52:97,larger_than,ood
+Fifty-three is larger than fifty-six.,0,53:56,larger_than,ood
+Fifty-three is larger than seventy-seven.,0,53:77,larger_than,ood
+Fifty-three is larger than eighty-seven.,0,53:87,larger_than,ood
+Fifty-three is larger than ninety-one.,0,53:91,larger_than,ood
+Fifty-four is larger than fifty-five.,0,54:55,larger_than,ood
+Fifty-four is larger than sixty-eight.,0,54:68,larger_than,ood
+Fifty-four is larger than seventy-five.,0,54:75,larger_than,ood
+Fifty-five is larger than fifty-four.,1,54:55,larger_than,ood
+Fifty-five is larger than fifty-seven.,0,55:57,larger_than,ood
+Fifty-five is larger than fifty-eight.,0,55:58,larger_than,ood
+Fifty-five is larger than seventy-eight.,0,55:78,larger_than,ood
+Fifty-five is larger than ninety-eight.,0,55:98,larger_than,ood
+Fifty-six is larger than fifty-three.,1,53:56,larger_than,ood
+Fifty-six is larger than seventy-four.,0,56:74,larger_than,ood
+Fifty-six is larger than seventy-nine.,0,56:79,larger_than,ood
+Fifty-seven is larger than fifty-one.,1,51:57,larger_than,ood
+Fifty-seven is larger than fifty-five.,1,55:57,larger_than,ood
+Fifty-seven is larger than fifty-eight.,0,57:58,larger_than,ood
+Fifty-seven is larger than eighty-four.,0,57:84,larger_than,ood
+Fifty-seven is larger than eighty-seven.,0,57:87,larger_than,ood
+Fifty-eight is larger than fifty-five.,1,55:58,larger_than,ood
+Fifty-eight is larger than fifty-seven.,1,57:58,larger_than,ood
+Fifty-eight is larger than sixty-nine.,0,58:69,larger_than,ood
+Fifty-eight is larger than seventy-five.,0,58:75,larger_than,ood
+Fifty-eight is larger than eighty-seven.,0,58:87,larger_than,ood
+Fifty-eight is larger than ninety-two.,0,58:92,larger_than,ood
+Fifty-nine is larger than ninety-three.,0,59:93,larger_than,ood
+Fifty-nine is larger than ninety-four.,0,59:94,larger_than,ood
+Sixty-one is larger than sixty-three.,0,61:63,larger_than,ood
+Sixty-one is larger than ninety-two.,0,61:92,larger_than,ood
+Sixty-two is larger than ninety-five.,0,62:95,larger_than,ood
+Sixty-three is larger than sixty-one.,1,61:63,larger_than,ood
+Sixty-three is larger than seventy-six.,0,63:76,larger_than,ood
+Sixty-four is larger than ninety-two.,0,64:92,larger_than,ood
+Sixty-four is larger than ninety-three.,0,64:93,larger_than,ood
+Sixty-four is larger than ninety-five.,0,64:95,larger_than,ood
+Sixty-six is larger than fifty-one.,1,51:66,larger_than,ood
+Sixty-seven is larger than ninety-five.,0,67:95,larger_than,ood
+Sixty-eight is larger than fifty-four.,1,54:68,larger_than,ood
+Sixty-nine is larger than fifty-eight.,1,58:69,larger_than,ood
+Sixty-nine is larger than eighty-four.,0,69:84,larger_than,ood
+Seventy-one is larger than fifty-one.,1,51:71,larger_than,ood
+Seventy-two is larger than seventy-seven.,0,72:77,larger_than,ood
+Seventy-three is larger than eighty-one.,0,73:81,larger_than,ood
+Seventy-three is larger than eighty-two.,0,73:82,larger_than,ood
+Seventy-three is larger than eighty-four.,0,73:84,larger_than,ood
+Seventy-three is larger than ninety-five.,0,73:95,larger_than,ood
+Seventy-four is larger than fifty-one.,1,51:74,larger_than,ood
+Seventy-four is larger than fifty-six.,1,56:74,larger_than,ood
+Seventy-four is larger than eighty-one.,0,74:81,larger_than,ood
+Seventy-four is larger than eighty-nine.,0,74:89,larger_than,ood
+Seventy-five is larger than fifty-two.,1,52:75,larger_than,ood
+Seventy-five is larger than fifty-four.,1,54:75,larger_than,ood
+Seventy-five is larger than fifty-eight.,1,58:75,larger_than,ood
+Seventy-five is larger than ninety-eight.,0,75:98,larger_than,ood
+Seventy-six is larger than sixty-three.,1,63:76,larger_than,ood
+Seventy-seven is larger than fifty-three.,1,53:77,larger_than,ood
+Seventy-seven is larger than seventy-two.,1,72:77,larger_than,ood
+Seventy-seven is larger than eighty-seven.,0,77:87,larger_than,ood
+Seventy-seven is larger than ninety-seven.,0,77:97,larger_than,ood
+Seventy-eight is larger than fifty-five.,1,55:78,larger_than,ood
+Seventy-nine is larger than fifty-six.,1,56:79,larger_than,ood
+Seventy-nine is larger than ninety-five.,0,79:95,larger_than,ood
+Seventy-nine is larger than ninety-nine.,0,79:99,larger_than,ood
+Eighty-one is larger than seventy-three.,1,73:81,larger_than,ood
+Eighty-one is larger than seventy-four.,1,74:81,larger_than,ood
+Eighty-one is larger than eighty-four.,0,81:84,larger_than,ood
+Eighty-one is larger than ninety-two.,0,81:92,larger_than,ood
+Eighty-two is larger than seventy-three.,1,73:82,larger_than,ood
+Eighty-two is larger than eighty-six.,0,82:86,larger_than,ood
+Eighty-four is larger than fifty-seven.,1,57:84,larger_than,ood
+Eighty-four is larger than sixty-nine.,1,69:84,larger_than,ood
+Eighty-four is larger than seventy-three.,1,73:84,larger_than,ood
+Eighty-four is larger than eighty-one.,1,81:84,larger_than,ood
+Eighty-four is larger than ninety-four.,0,84:94,larger_than,ood
+Eighty-five is larger than fifty-one.,1,51:85,larger_than,ood
+Eighty-five is larger than ninety-three.,0,85:93,larger_than,ood
+Eighty-six is larger than eighty-two.,1,82:86,larger_than,ood
+Eighty-six is larger than ninety-two.,0,86:92,larger_than,ood
+Eighty-seven is larger than fifty-three.,1,53:87,larger_than,ood
+Eighty-seven is larger than fifty-seven.,1,57:87,larger_than,ood
+Eighty-seven is larger than fifty-eight.,1,58:87,larger_than,ood
+Eighty-seven is larger than seventy-seven.,1,77:87,larger_than,ood
+Eighty-nine is larger than seventy-four.,1,74:89,larger_than,ood
+Eighty-nine is larger than ninety-four.,0,89:94,larger_than,ood
+Ninety-one is larger than fifty-three.,1,53:91,larger_than,ood
+Ninety-one is larger than ninety-six.,0,91:96,larger_than,ood
+Ninety-two is larger than fifty-eight.,1,58:92,larger_than,ood
+Ninety-two is larger than sixty-one.,1,61:92,larger_than,ood
+Ninety-two is larger than sixty-four.,1,64:92,larger_than,ood
+Ninety-two is larger than eighty-one.,1,81:92,larger_than,ood
+Ninety-two is larger than eighty-six.,1,86:92,larger_than,ood
+Ninety-three is larger than fifty-nine.,1,59:93,larger_than,ood
+Ninety-three is larger than sixty-four.,1,64:93,larger_than,ood
+Ninety-three is larger than eighty-five.,1,85:93,larger_than,ood
+Ninety-three is larger than ninety-six.,0,93:96,larger_than,ood
+Ninety-four is larger than fifty-nine.,1,59:94,larger_than,ood
+Ninety-four is larger than eighty-four.,1,84:94,larger_than,ood
+Ninety-four is larger than eighty-nine.,1,89:94,larger_than,ood
+Ninety-five is larger than sixty-two.,1,62:95,larger_than,ood
+Ninety-five is larger than sixty-four.,1,64:95,larger_than,ood
+Ninety-five is larger than sixty-seven.,1,67:95,larger_than,ood
+Ninety-five is larger than seventy-three.,1,73:95,larger_than,ood
+Ninety-five is larger than seventy-nine.,1,79:95,larger_than,ood
+Ninety-six is larger than ninety-one.,1,91:96,larger_than,ood
+Ninety-six is larger than ninety-three.,1,93:96,larger_than,ood
+Ninety-seven is larger than fifty-two.,1,52:97,larger_than,ood
+Ninety-seven is larger than seventy-seven.,1,77:97,larger_than,ood
+Ninety-eight is larger than fifty-five.,1,55:98,larger_than,ood
+Ninety-eight is larger than seventy-five.,1,75:98,larger_than,ood
+Ninety-nine is larger than fifty-one.,1,51:99,larger_than,ood
+Ninety-nine is larger than seventy-nine.,1,79:99,larger_than,ood
