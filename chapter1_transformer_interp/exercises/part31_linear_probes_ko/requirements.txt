@@ -1,0 +1,14 @@
+# 이 장을 실행해 출력을 저장한 환경 (2026-10, RTX A6000, Python 3.12.14).
+# torch는 GPU에 맞는 wheel을 먼저 설치한다. 예: uv pip install torch --index-url https://download.pytorch.org/whl/cu128
+torch==2.11.0
+transformers==5.18.0      # 4.56 이상이면 동작하도록 작성했다(그 이하는 미검증)
+accelerate==1.15.0
+huggingface-hub==1.33.0
+safetensors==0.8.0
+tokenizers==0.23.2
+numpy==2.5.3
+pandas==3.0.6
+scikit-learn==1.9.1
+matplotlib==3.11.2
+threadpoolctl==3.7.0
+ipykernel==7.3.0

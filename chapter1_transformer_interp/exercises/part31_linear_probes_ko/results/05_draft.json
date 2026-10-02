@@ -1,0 +1,74 @@
+{
+ "saved_at": "2026-10-02 21:22",
+ "abstract": {
+  "S2": "truth value of held-out city statements is linearly decodable at layer 12 (test AUROC 1.00)",
+  "S3": "not explained by lexical baselines, a randomly initialized model, or probe capacity",
+  "S4": "truth is the dominant axis of variation (PC1 56%)",
+  "S5": "generalizes zero-shot to other topics, numerical comparisons, German and role-play lies (AUROC 0.81-1.00)",
+  "S6": "shifting along it flips TRUE/FALSE judgments both ways (84%/99%), random directions do not (<=1%)",
+  "S7": "LLMs maintain a general, linearly represented truth variable that they use; implications for monitoring honesty"
+ },
+ "ladder": [
+  {
+   "단계": "1. 읽힘",
+   "notebook": "①",
+   "핵심 수치": "L12 test AUROC MM 1.000, LR 1.000 (149개 미지 도시)"
+  },
+  {
+   "단계": "2. 선택성",
+   "notebook": "②",
+   "핵심 수치": "표면 baseline ≤ 0.475; random-init ≤ 0.578; LR 귀무분포 0.50±0.044, p=0.010"
+  },
+  {
+   "단계": "(기술) 최대 분산 축",
+   "notebook": "②",
+   "핵심 수치": "PC1 분산 56%; MM 귀무분포 P(≥0.99)=0.30, p=0.10"
+  },
+  {
+   "단계": "3. 일반화",
+   "notebook": "③",
+   "핵심 수치": "주제 5개 AUROC 0.94–1.00; 수 비교 1.00/1.00; 독일어 1.00; 역할극 거짓말 0.98"
+  },
+  {
+   "단계": "4. 인과(충분성)",
+   "notebook": "④",
+   "핵심 수치": "α=0.5: MM 뒤집힘 F→T 84%, T→F 99%; 무작위 1%, 0.2%"
+  },
+  {
+   "단계": "5. 인과(필요성)",
+   "notebook": "—",
+   "핵심 수치": "미검증 (⑦)"
+  },
+  {
+   "단계": "6. 실전 견고성",
+   "notebook": "—",
+   "핵심 수치": "미검증 (⑧)"
+  }
+ ],
+ "claims": [
+  {
+   "id": "C1",
+   "status": "지지됨"
+  },
+  {
+   "id": "C2",
+   "status": "지지됨"
+  },
+  {
+   "id": "D1",
+   "status": "관찰됨"
+  },
+  {
+   "id": "C3",
+   "status": "지지됨 (긍정문 한정)"
+  },
+  {
+   "id": "C4",
+   "status": "지지됨 (충분성)"
+  },
+  {
+   "id": "C5",
+   "status": "주장됨 (증거 초과)"
+  }
+ ]
+}

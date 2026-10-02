@@ -1,0 +1,270 @@
+{
+ "saved_at": "2026-10-02 21:22",
+ "probe_layer": 12,
+ "intervene_layers": [
+  8,
+  9,
+  10,
+  11,
+  12
+ ],
+ "scale_norm_mu_diff": 4.485955238342285,
+ "baseline": {
+  "mean_m_true": 0.9896836280822754,
+  "mean_m_false": -0.9937470555305481
+ },
+ "got_alpha1": {
+  "direction": "MM α=1",
+  "F→T: mean m on false (add)": 0.7326781749725342,
+  "F→T flip rate": 0.9194630872483222,
+  "T→F: mean m on true (subtract)": -0.9887572526931763,
+  "T→F flip rate": 1.0,
+  "P(T)+P(F)": 0.9932595491409302
+ },
+ "random_alpha1": {
+  "dir": {
+   "mean": 9.5,
+   "min": 0.0,
+   "max": 19.0
+  },
+  "mean m on false": {
+   "mean": 0.4435936176450923,
+   "min": -0.3471831977367401,
+   "max": 0.8017989993095398
+  },
+  "flip F→T": {
+   "mean": 0.7956375838926175,
+   "min": 0.1476510067114094,
+   "max": 0.9932885906040269
+  },
+  "mean m on true": {
+   "mean": 0.8589109718799591,
+   "min": 0.7392058372497559,
+   "max": 0.9327093362808228
+  },
+  "flip T→F": {
+   "mean": 0.019463087248322148,
+   "min": 0.0,
+   "max": 0.03355704697986577
+  },
+  "P(T)+P(F)": {
+   "mean": 0.9878880143165588,
+   "min": 0.9739524126052856,
+   "max": 0.9940668940544128
+  }
+ },
+ "dose_response": [
+  {
+   "alpha": 0.25,
+   "direction": "MM",
+   "flip F→T": 0.14093959731543623,
+   "flip T→F": 0.06040268456375839,
+   "mean m false (add)": -0.5030035376548767,
+   "mean m true (sub)": 0.7854019999504089,
+   "P(T)+P(F)": 0.9964486360549927,
+   "random F→T min": null,
+   "random F→T max": null,
+   "random T→F min": null,
+   "random T→F max": null
+  },
+  {
+   "alpha": 0.25,
+   "direction": "LR",
+   "flip F→T": 0.020134228187919462,
+   "flip T→F": 0.03355704697986577,
+   "mean m false (add)": -0.912006676197052,
+   "mean m true (sub)": 0.9102028608322144,
+   "P(T)+P(F)": 0.9976864457130432,
+   "random F→T min": null,
+   "random F→T max": null,
+   "random T→F min": null,
+   "random T→F max": null
+  },
+  {
+   "alpha": 0.25,
+   "direction": "random (mean of 20)",
+   "flip F→T": 0.0003355704697986577,
+   "flip T→F": 0.0,
+   "mean m false (add)": -0.9885306388139725,
+   "mean m true (sub)": 0.9874294430017472,
+   "P(T)+P(F)": 0.9983530521392823,
+   "random F→T min": 0.0,
+   "random F→T max": 0.006711409395973154,
+   "random T→F min": 0.0,
+   "random T→F max": 0.0
+  },
+  {
+   "alpha": 0.5,
+   "direction": "MM",
+   "flip F→T": 0.8389261744966443,
+   "flip T→F": 0.9932885906040269,
+   "mean m false (add)": 0.5290173888206482,
+   "mean m true (sub)": -0.9532999396324158,
+   "P(T)+P(F)": 0.9929919242858887,
+   "random F→T min": null,
+   "random F→T max": null,
+   "random T→F min": null,
+   "random T→F max": null
+  },
+  {
+   "alpha": 0.5,
+   "direction": "LR",
+   "flip F→T": 0.697986577181208,
+   "flip T→F": 0.4161073825503356,
+   "mean m false (add)": 0.2913297712802887,
+   "mean m true (sub)": 0.06867425888776779,
+   "P(T)+P(F)": 0.9942977428436279,
+   "random F→T min": null,
+   "random F→T max": null,
+   "random T→F min": null,
+   "random T→F max": null
+  },
+  {
+   "alpha": 0.5,
+   "direction": "random (mean of 20)",
+   "flip F→T": 0.009731543624161074,
+   "flip T→F": 0.002013422818791946,
+   "mean m false (add)": -0.9061368703842163,
+   "mean m true (sub)": 0.9618715018033981,
+   "P(T)+P(F)": 0.9962161868810654,
+   "random F→T min": 0.0,
+   "random F→T max": 0.06711409395973154,
+   "random T→F min": 0.0,
+   "random T→F max": 0.006711409395973154
+  },
+  {
+   "alpha": 0.75,
+   "direction": "MM",
+   "flip F→T": 0.9328859060402684,
+   "flip T→F": 1.0,
+   "mean m false (add)": 0.7362174987792969,
+   "mean m true (sub)": -0.9906460642814636,
+   "P(T)+P(F)": 0.9924889802932739,
+   "random F→T min": null,
+   "random F→T max": null,
+   "random T→F min": null,
+   "random T→F max": null
+  },
+  {
+   "alpha": 0.75,
+   "direction": "LR",
+   "flip F→T": 0.9395973154362416,
+   "flip T→F": 0.5436241610738255,
+   "mean m false (add)": 0.7274243831634521,
+   "mean m true (sub)": -0.05044000223278999,
+   "P(T)+P(F)": 0.9907283782958984,
+   "random F→T min": null,
+   "random F→T max": null,
+   "random T→F min": null,
+   "random T→F max": null
+  },
+  {
+   "alpha": 0.75,
+   "direction": "random (mean of 20)",
+   "flip F→T": 0.2959731543624161,
+   "flip T→F": 0.009395973154362415,
+   "mean m false (add)": -0.27920761201530697,
+   "mean m true (sub)": 0.89805588722229,
+   "P(T)+P(F)": 0.9898217141628265,
+   "random F→T min": 0.0,
+   "random F→T max": 0.9328859060402684,
+   "random T→F min": 0.0,
+   "random T→F max": 0.03355704697986577
+  },
+  {
+   "alpha": 1.0,
+   "direction": "MM",
+   "flip F→T": 0.9194630872483222,
+   "flip T→F": 1.0,
+   "mean m false (add)": 0.7326781749725342,
+   "mean m true (sub)": -0.9887572526931763,
+   "P(T)+P(F)": 0.9932595491409302,
+   "random F→T min": null,
+   "random F→T max": null,
+   "random T→F min": null,
+   "random T→F max": null
+  },
+  {
+   "alpha": 1.0,
+   "direction": "LR",
+   "flip F→T": 0.9194630872483222,
+   "flip T→F": 0.08053691275167785,
+   "mean m false (add)": 0.7136405110359192,
+   "mean m true (sub)": 0.39020469784736633,
+   "P(T)+P(F)": 0.9868130683898926,
+   "random F→T min": null,
+   "random F→T max": null,
+   "random T→F min": null,
+   "random T→F max": null
+  },
+  {
+   "alpha": 1.0,
+   "direction": "random (mean of 20)",
+   "flip F→T": 0.7956375838926175,
+   "flip T→F": 0.019463087248322148,
+   "mean m false (add)": 0.4435936176450923,
+   "mean m true (sub)": 0.8589109718799591,
+   "P(T)+P(F)": 0.9878880143165588,
+   "random F→T min": 0.1476510067114094,
+   "random F→T max": 0.9932885906040269,
+   "random T→F min": 0.0,
+   "random T→F max": 0.03355704697986577
+  }
+ ],
+ "where": [
+  {
+   "intervention": "layers 4–8, α=0.5 each",
+   "MM flip F→T": 0.9463087248322147,
+   "MM flip T→F": 1.0,
+   "random flip F→T (mean of 5)": 0.04832214765100672,
+   "random flip T→F (mean of 5)": 0.032214765100671144,
+   "P(T)+P(F)": 0.9961018562316895
+  },
+  {
+   "intervention": "layers 8–12, α=0.5 each",
+   "MM flip F→T": 0.8389261744966443,
+   "MM flip T→F": 0.9932885906040269,
+   "random flip F→T (mean of 5)": 0.004026845637583892,
+   "random flip T→F (mean of 5)": 0.0026845637583892616,
+   "P(T)+P(F)": 0.9929919242858887
+  },
+  {
+   "intervention": "layers 12–16, α=0.5 each",
+   "MM flip F→T": 0.026845637583892617,
+   "MM flip T→F": 0.0,
+   "random flip F→T (mean of 5)": 0.0,
+   "random flip T→F (mean of 5)": 0.0,
+   "P(T)+P(F)": 0.9973444938659668
+  },
+  {
+   "intervention": "layer 8 only, α=2.5",
+   "MM flip F→T": 0.8859060402684564,
+   "MM flip T→F": 1.0,
+   "random flip F→T (mean of 5)": 0.018791946308724834,
+   "random flip T→F (mean of 5)": 0.009395973154362417,
+   "P(T)+P(F)": 0.9926808476448059
+  },
+  {
+   "intervention": "layer 12 only, α=2.5",
+   "MM flip F→T": 0.2751677852348993,
+   "MM flip T→F": 0.087248322147651,
+   "random flip F→T (mean of 5)": 0.004026845637583892,
+   "random flip T→F (mean of 5)": 0.0,
+   "P(T)+P(F)": 0.9951868057250977
+  }
+ ],
+ "residual_norms": {
+  "8": 5.724099636077881,
+  "9": 6.36686897277832,
+  "10": 6.454891204833984,
+  "11": 6.84338903427124,
+  "12": 8.31601619720459
+ },
+ "claims": [
+  {
+   "id": "C4",
+   "status": "지지됨 (충분성)",
+   "text": "L8–12 문장 끝에서 MM 진실 방향으로 밀면 판단이 양방향으로 뒤집히고(α=0.5: F→T 84%, T→F 99%) 같은 크기의 무작위 방향은 그렇지 않다(1%, 0.2%). α=1에서는 F→T가 비특이적(무작위 평균 80%). L12 이후 층에 더하면 효과가 거의 없다."
+  }
+ ]
+}

@@ -1,0 +1,139 @@
+{
+ "saved_at": "2026-10-02 21:12",
+ "probe_layer": 12,
+ "surface_baselines": [
+  {
+   "features": "country one-hot",
+   "dim": 108,
+   "val AUROC": 0.47573333333333334,
+   "test AUROC": 0.45961893608396015
+  },
+  {
+   "features": "bag-of-embeddings",
+   "dim": 4096,
+   "val AUROC": 0.4776,
+   "test AUROC": 0.47488851853520114
+  },
+  {
+   "features": "layer 12 activation",
+   "dim": 4096,
+   "val AUROC": 1.0,
+   "test AUROC": 1.0
+  }
+ ],
+ "behavior_test_acc": 1.0,
+ "country_logprob_test_auroc": 1.0,
+ "corr_probe_logprob": {
+  "all": 0.8768940546742177,
+  "within true": 0.04450746585292382,
+  "within false": -0.04522161764019178
+ },
+ "random_init_max_val_auroc": 0.5776,
+ "null": [
+  {
+   "probe": "MM (200 perms)",
+   "mean": 0.49276181253096707,
+   "sd": 0.46284024252757167,
+   "min": 0.0,
+   "max": 1.0,
+   "P(null ≥ 0.99)": 0.3,
+   "P(null ≤ 0.01)": 0.31,
+   "observed": 1.0,
+   "p-value": 0.09950248756218906
+  },
+  {
+   "probe": "LR (100 perms)",
+   "mean": 0.4961141390027477,
+   "sd": 0.04391136970737005,
+   "min": 0.37453267870816626,
+   "max": 0.5850637358677537,
+   "P(null ≥ 0.99)": 0.0,
+   "P(null ≤ 0.01)": 0.0,
+   "observed": 1.0,
+   "p-value": 0.009900990099009901
+  }
+ ],
+ "random_directions": [
+  {
+   "kind": "shuffled-label MM",
+   "mean": 0.49276181253096707,
+   "sd": 0.46284024252757167,
+   "P(null ≥ 0.99)": 0.3,
+   "P(null ≤ 0.01)": 0.31
+  },
+  {
+   "kind": "N(0, Σ) direction",
+   "mean": 0.5102962929597765,
+   "sd": 0.46961140939764856,
+   "P(null ≥ 0.99)": 0.358,
+   "P(null ≤ 0.01)": 0.34
+  },
+  {
+   "kind": "N(0, I) direction",
+   "mean": 0.5156597450565289,
+   "sd": 0.3321093898266287,
+   "P(null ≥ 0.99)": 0.032,
+   "P(null ≤ 0.01)": 0.028
+  }
+ ],
+ "pc1_explained": 0.5589125156402588,
+ "seed_table": [
+  {
+   "split seed": 0,
+   "selected layer": 12,
+   "MM test AUROC": 1.0,
+   "MM test acc": 0.9563758389261745,
+   "LR test AUROC": 1.0,
+   "LR test acc": 1.0
+  },
+  {
+   "split seed": 1,
+   "selected layer": 12,
+   "MM test AUROC": 1.0,
+   "MM test acc": 0.9664429530201343,
+   "LR test AUROC": 1.0,
+   "LR test acc": 1.0
+  },
+  {
+   "split seed": 2,
+   "selected layer": 12,
+   "MM test AUROC": 1.0,
+   "MM test acc": 0.9563758389261745,
+   "LR test AUROC": 1.0,
+   "LR test acc": 0.9966442953020134
+  },
+  {
+   "split seed": 3,
+   "selected layer": 12,
+   "MM test AUROC": 1.0,
+   "MM test acc": 0.9463087248322147,
+   "LR test AUROC": 1.0,
+   "LR test acc": 1.0
+  },
+  {
+   "split seed": 4,
+   "selected layer": 12,
+   "MM test AUROC": 1.0,
+   "MM test acc": 0.9731543624161074,
+   "LR test AUROC": 1.0,
+   "LR test acc": 1.0
+  }
+ ],
+ "claims": [
+  {
+   "id": "C1",
+   "status": "지지됨",
+   "text": "L12에서 cities 참/거짓이 선형으로 분리된다 (split seed 5개에서 재현)."
+  },
+  {
+   "id": "C2",
+   "status": "지지됨",
+   "text": "표면 통계·probe 용량·무작위 weight로 설명되지 않는다 (baseline ≤0.48, random-init ≤0.58, LR null p≤0.01)."
+  },
+  {
+   "id": "D1",
+   "status": "관찰됨",
+   "text": "참/거짓이 L12 activation의 최대 분산 축이다 (PC1 56%). MM shuffled-label 검정은 이 때문에 검정력이 없다."
+  }
+ ]
+}

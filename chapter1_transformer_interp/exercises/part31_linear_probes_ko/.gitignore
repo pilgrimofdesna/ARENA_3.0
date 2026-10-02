@@ -1,0 +1,7 @@
+# activation cache (GB 단위, 다시 계산 가능)
+cache/
+__pycache__/
+.ipynb_checkpoints/
+
+# 저장소 root의 `*data` 규칙에서 이 장의 데이터(MIT, 1.4 MB)는 예외로 둔다
+!data/

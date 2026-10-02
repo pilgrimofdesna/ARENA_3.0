@@ -1,7 +1,0 @@
-model_paths.local.json
-# Small fixed teaching datasets and measured pilot outputs are versioned.
-!data/
-!data/**
-__pycache__/
-.ipynb_checkpoints/
-*.log

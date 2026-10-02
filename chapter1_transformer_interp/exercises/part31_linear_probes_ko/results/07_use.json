@@ -1,0 +1,133 @@
+{
+ "saved_at": "2026-10-02 21:24",
+ "made_up_concepts": [
+  {
+   "label": "truth (real label)",
+   "positive rate": 0.5,
+   "LR test AUROC": 1.0,
+   "MM test AUROC": 1.0
+  },
+  {
+   "label": "random country partition (made-up)",
+   "positive rate": 0.3536096256684492,
+   "LR test AUROC": 0.987043707327563,
+   "MM test AUROC": 0.7317886135154025
+  },
+  {
+   "label": "country in Asia (real, irrelevant)",
+   "positive rate": 0.6143048128342246,
+   "LR test AUROC": 0.9966036833293471,
+   "MM test AUROC": 0.8505620664912701
+  },
+  {
+   "label": "random label per city (unseen at test)",
+   "positive rate": 0.4879679144385027,
+   "LR test AUROC": 0.4482432432432432,
+   "MM test AUROC": 0.48779279279279286
+  }
+ ],
+ "erasure_decodability": [
+  {
+   "retrained LR test AUROC": 1.0,
+   "||mu1 - mu0|| (train)": 4.485955238342285,
+   "mean ||x' - x||": 0.0
+  },
+  {
+   "retrained LR test AUROC": 1.0,
+   "||mu1 - mu0|| (train)": 3.9088731108253665,
+   "mean ||x' - x||": 1.0957738258084018
+  },
+  {
+   "retrained LR test AUROC": 1.0,
+   "||mu1 - mu0|| (train)": 3.1379858426808034,
+   "mean ||x' - x||": 1.6536882631947196
+  },
+  {
+   "retrained LR test AUROC": 0.5,
+   "||mu1 - mu0|| (train)": 3.541290880093584e-06,
+   "mean ||x' - x||": 2.2333810329437256
+  },
+  {
+   "retrained LR test AUROC": 0.5504706995180397,
+   "||mu1 - mu0|| (train)": 0.001984434900805354,
+   "mean ||x' - x||": 2.230555295944214
+  }
+ ],
+ "cos_statement_vs_context_dir": 0.23258808255195618,
+ "amnesic": [
+  {
+   "experiment": "no erasure",
+   "eraser labels": "—",
+   "accuracy": 1.0,
+   "AUROC(m)": 1.0,
+   "mean m | true": 0.9896836280822754,
+   "mean m | false": -0.9937470555305481
+  },
+  {
+   "experiment": "A",
+   "eraser labels": "real",
+   "accuracy": 0.8758389261744967,
+   "AUROC(m)": 0.9536056934372326,
+   "mean m | true": 0.6463956832885742,
+   "mean m | false": -0.7542992234230042
+  },
+  {
+   "experiment": "A",
+   "eraser labels": "shuffled",
+   "accuracy": 1.0,
+   "AUROC(m)": 1.0,
+   "mean m | true": 0.988496720790863,
+   "mean m | false": -0.9942004084587097
+  },
+  {
+   "experiment": "B",
+   "eraser labels": "real",
+   "accuracy": 0.6711409395973155,
+   "AUROC(m)": 0.6967253727309581,
+   "mean m | true": 0.20097459852695465,
+   "mean m | false": -0.19895850121974945
+  },
+  {
+   "experiment": "B",
+   "eraser labels": "shuffled",
+   "accuracy": 1.0,
+   "AUROC(m)": 1.0,
+   "mean m | true": 0.9897512197494507,
+   "mean m | false": -0.9940663576126099
+  },
+  {
+   "experiment": "C",
+   "eraser labels": "real",
+   "accuracy": 0.610738255033557,
+   "AUROC(m)": 0.6778973920093689,
+   "mean m | true": 0.18223494291305542,
+   "mean m | false": 0.0809914767742157
+  },
+  {
+   "experiment": "C",
+   "eraser labels": "shuffled",
+   "accuracy": 1.0,
+   "AUROC(m)": 1.0,
+   "mean m | true": 0.9894704222679138,
+   "mean m | false": -0.9942477345466614
+  }
+ ],
+ "weekday_linear_r2": 0.9713077225807019,
+ "claims": [
+  {
+   "id": "C2",
+   "status": "범위 축소",
+   "text": "무작위 국가 묶음도 LR 0.99로 읽힌다: 정확도는 개념의 존재를 보이지 못한다."
+  },
+  {
+   "id": "C4",
+   "status": "강화 + 대상 수정",
+   "text": "prompt 안 선형 진실 정보는 판단에 필요(지우면 margin ±0.99→≈+0.1)하고 충분(밀면 뒤집힘)하다. 문장 단독 probe 방향 = 모델 변수는 아님 (cos 0.23)."
+  },
+  {
+   "id": "D2",
+   "status": "관찰됨",
+   "text": "판단에 쓰이는 정보는 중간 층에서 문장 끝 → 답 위치로 이동한다."
+  }
+ ]
+}
