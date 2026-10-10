@@ -14,7 +14,8 @@ set -euo pipefail
 NUM="${1:?사용법: bash vast/run_notebook.sh <번호, 예: 01>}"
 NUM=$(printf '%02d' "$((10#$NUM))")
 ARENA_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-ARENA_VENV="${ARENA_VENV:-/workspace/venv-arena}"
+# setup.sh가 고른 venv를 쓴다 (/venv/main 또는 /workspace/venv-arena).
+ARENA_VENV="${ARENA_VENV:-$(cat "${WORKSPACE:-/workspace}/.arena_venv" 2>/dev/null || echo /workspace/venv-arena)}"
 PART_DIR="$ARENA_DIR/chapter1_transformer_interp/exercises/part31_linear_probes_ko"
 
 shopt -s nullglob
