@@ -278,8 +278,10 @@ def extract_activations(
             from tqdm.auto import tqdm
 
             iterator = tqdm(starts, desc="activations")
+        # 여기서 진짜 Inference 시작. AI가 여기서 살아난다.
         for s in iterator:
             batch = list(texts[s : s + batch_size])
+            # 인풋 체크하고 이상하면 제대로 만듦
             if char_spans is None:
                 enc = tokenizer(
                     batch,
@@ -308,6 +310,7 @@ def extract_activations(
                 current["pool"] = w.to(device)
                 enc = enc.to(device)
             # lm_head(128k vocab)는 필요 없으므로 base model만 실행한다.
+            # Output 은 어디로 감? 아 그냥 버리는구나 hook 가정하는거라서
             model.model(input_ids=enc["input_ids"], attention_mask=enc["attention_mask"])
     finally:
         for h in handles:
@@ -332,6 +335,7 @@ class ActivationStore:
         self.tokenizer = tokenizer
         self.dir = CACHE_DIR / _slug(model_id)
         self.dir.mkdir(parents=True, exist_ok=True)
+        self.FLAG_ALWAYS_GENERATE = False
 
     def ensure_model(self):
         if self.model is None:
@@ -359,6 +363,7 @@ class ActivationStore:
         Returns: {layer: [N, D] float32 numpy}
         """
         # 같은 key에 다른 texts가 들어오면 낡은 cache를 조용히 읽지 않도록 내용 hash를 함께 저장한다.
+        # 뭔 클래스 패턴이지 이건?
         import hashlib
 
         digest = hashlib.sha1("\x1e".join(texts).encode()).hexdigest()[:16]
@@ -368,7 +373,7 @@ class ActivationStore:
                 old.unlink()
         stamp.write_text(digest)
         missing = [l for l in layers if not self._path(key, tag, l).exists()]
-        if missing:
+        if missing or self.FLAG_ALWAYS_GENERATE:
             model, tok = self.ensure_model()
             acts = extract_activations(
                 model,
