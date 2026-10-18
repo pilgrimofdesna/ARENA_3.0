@@ -373,6 +373,8 @@ class ActivationStore:
                 old.unlink()
         stamp.write_text(digest)
         missing = [l for l in layers if not self._path(key, tag, l).exists()]
+        if self.FLAG_ALWAYS_GENERATE:  # 강제 재계산: cache가 다 있어도 missing이 []라 아무 층도 안 뽑히므로, 요청한 층 전부로 바꾼다
+            missing = list(layers)
         if missing or self.FLAG_ALWAYS_GENERATE:
             model, tok = self.ensure_model()
             acts = extract_activations(
