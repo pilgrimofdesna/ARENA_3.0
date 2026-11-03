@@ -426,13 +426,15 @@ if MAIN:
         print(f"{name}: train={n_train}, test={n - n_train}")
 
 # %% [markdown]
-# > [!WARNING]
-# > **현재 `MMProbe`의 accuracy에는 midpoint가 빠져 있다.** 두 클래스 평균을
-# > `mu_pos`, `mu_neg`라 할 때 표준 difference-of-means/nearest-centroid 판정은
-# > `(x - (mu_pos + mu_neg) / 2) @ (mu_pos - mu_neg) > 0`이다. 아래 구현은 `x @ direction > 0`
-# > (sigmoid 후 0.5 threshold)을 사용하므로 residual stream의 원점이 우연히 midpoint가 아닌
-# > 한 다른 분류기다. 앞의 `layer_sweep_accuracy` 구현이 올바른 기준을 보여 준다. 상수 offset은
-# > 순위를 바꾸지 않아 AUROC에는 영향이 없지만, accuracy·확률 보정·0.5 threshold에는 영향을 준다.
+# > [!NOTE]
+# > **(2026-11-03 갱신) 원본이 이 문제를 고쳤다.** 원본 PR #377(2026-08-24)이 `MMProbe`에
+# > midpoint `bias = (mu_pos + mu_neg) / 2`를 넣어 `sigmoid((x - bias) @ direction)`으로 판정한다.
+# > cities test accuracy가 0.743 → 0.953으로 올랐고, 기준도 70% → 90%로 바뀌었다.
+# > 이유는 그대로다: 표준 difference-of-means/nearest-centroid 판정은
+# > `(x - (mu_pos + mu_neg) / 2) @ (mu_pos - mu_neg) > 0`이고, bias 없이 `x @ direction > 0`을 쓰면
+# > residual stream 원점에 의존하는 다른 분류기가 된다(GoT 원 코드는 데이터셋별로 activation을
+# > 미리 centering해서 괜찮았다). 상수 offset은 순위를 바꾸지 않아 AUROC에는 영향이 없지만,
+# > accuracy·확률 보정·0.5 threshold에는 영향을 준다.
 
 # %%
 
