@@ -86,7 +86,7 @@ r'''
 
 ### 1️⃣ AI Psychosis - Multi-Turn Red-Teaming
 
-You'll start by implementing the full dynamic red-teaming pipeline from Tim Hua's AI psychosis study. Rather than hardcoded escalation scripts, you'll use a live red-team LLM (Grok-3) that plays the patient, reads the target's responses, and adaptively escalates. You'll load character files from the official ai-psychosis repo, wire up a multi-turn conversation loop, grade transcripts with the original 14-dimension clinical rubric, and run parallel campaigns across characters using `ThreadPoolExecutor`.
+You'll start by implementing the full dynamic red-teaming pipeline from Tim Hua's AI psychosis study. Rather than hardcoded escalation scripts, you'll use a live red-team LLM (Grok) that plays the patient, reads the target's responses, and adaptively escalates. You'll load character files from the official ai-psychosis repo, wire up a multi-turn conversation loop, grade transcripts with the original 14-dimension clinical rubric, and run parallel campaigns across characters using `ThreadPoolExecutor`.
 
 > ##### Learning Objectives
 >
@@ -170,14 +170,14 @@ from pathlib import Path
 IN_COLAB = "google.colab" in sys.modules
 
 chapter = "chapter4_alignment_science"
-repo = "ARENA_3.0"
+repo = "ARENA_materials"
 branch = "main"
 
 # # Install dependencies
 # try:
 #     import openai
 # except:
-#     %pip install openai jaxtyping einops tqdm pandas plotly
+#     %pip install "openai>=1.56.2,<4" jaxtyping einops tqdm pandas plotly
 
 # # Get root directory
 root = (
@@ -194,7 +194,7 @@ root = (
 #         %pip install jupyter ipython --upgrade
 
 #     if not os.path.exists(f"{root}/{chapter}"):
-#         !wget -P {root} https://github.com/callummcdougall/ARENA_3.0/archive/refs/heads/{branch}.zip
+#         !wget -P {root} https://github.com/ARENA-education/ARENA_materials/archive/refs/heads/{branch}.zip
 #         !unzip {root}/{branch}.zip '{repo}-{branch}/{chapter}/exercises/*' -d {root}
 #         !mv {root}/{repo}-{branch}/{chapter} {root}/{chapter}
 #         !rm {root}/{branch}.zip
@@ -233,7 +233,7 @@ from scipy import stats
 # Make sure exercises are in the path
 chapter = "chapter4_alignment_science"
 section = "part5_investigator_agents"
-root_dir = next(p for p in Path.cwd().parents if p.name == "ARENA_3.0")
+root_dir = next(p for p in Path.cwd().parents if (p / chapter).exists())
 exercises_dir = root_dir / chapter / "exercises"
 section_dir = exercises_dir / section
 
@@ -286,16 +286,16 @@ if MAIN:
 # ! TAGS: []
 
 # Model constants - used by generate_response (OpenRouter format: "provider/model")
-AUDITOR_MODEL = "anthropic/claude-sonnet-4"  # For running investigations
+AUDITOR_MODEL = "anthropic/claude-haiku-5.5"  # For running investigations
 TARGET_MODEL = "deepseek/deepseek-chat"  # Target to probe (found vulnerable in AI psychosis study)
-JUDGE_MODEL = "anthropic/claude-sonnet-4"  # For grading responses
+JUDGE_MODEL = "anthropic/claude-haiku-5.5"  # For grading responses
 
 # inspect_ai model names - used by Petri audit (Section 2 only)
 # All routed through OpenRouter so we only need one API key.
 # Format: "openrouter/<openrouter_model_id>"
-INSPECT_AUDITOR_MODEL = "openrouter/anthropic/claude-sonnet-4"
+INSPECT_AUDITOR_MODEL = "openrouter/anthropic/claude-haiku-5.5"
 INSPECT_TARGET_MODEL = "openrouter/deepseek/deepseek-chat"
-INSPECT_JUDGE_MODEL = "openrouter/anthropic/claude-sonnet-4"
+INSPECT_JUDGE_MODEL = "openrouter/anthropic/claude-haiku-5.5"
 
 
 def generate_response(
@@ -374,10 +374,21 @@ git clone https://github.com/tim-hua-01/ai-psychosis.git
 # ! TAGS: []
 
 # Model to use as the red-team LLM (playing the patient).
-# grok-3 is recommended: it commits fully to personas without refusing.
+# The original study used grok-3, which has since been deprecated. grok-4.5 commits to the personas; grok-4.3,
+# grok-4.20 and grok-4.7 refuse to play the patient (and the refusal then gets sent to the target as if it were
+# the patient's message), so if you swap models, read the first few patient messages to check it's in character.
 # Warning: using Claude as the red-team model can trigger account bans at scale
 # due to the nature of the content being generated!
-RED_TEAM_MODEL = "x-ai/grok-3"  # via OpenRouter
+RED_TEAM_MODEL = "x-ai/grok-4.5"  # via OpenRouter
+
+# Check every model we use is still served by OpenRouter. Models get deprecated regularly, and a dead model
+# otherwise shows up much later as empty transcripts or all-zero scores rather than as an error.
+if MAIN:
+    for _model in {AUDITOR_MODEL, TARGET_MODEL, JUDGE_MODEL, RED_TEAM_MODEL}:
+        try:
+            client.chat.completions.create(model=_model, messages=[{"role": "user", "content": "hi"}], max_tokens=1)
+        except Exception as e:
+            raise RuntimeError(f"Model {_model!r} is unavailable on OpenRouter - swap it for a current model: {e}")
 
 # Path to the ai-psychosis repo (already cloned in the ARENA environment)
 AI_PSYCHOSIS_DIR = exercises_dir / "ai-psychosis"
@@ -1140,7 +1151,7 @@ Run the campaign on multiple models. To distill the key results down, Tim Hua's 
 
 MODELS_TO_COMPARE = [
     "deepseek/deepseek-chat",
-    "anthropic/claude-sonnet-4",
+    "anthropic/claude-sonnet-4.5",
 ]
 
 
@@ -1264,9 +1275,23 @@ First you'll need to clone and install petri:
 
 ```bash
 cd chapter4_alignment_science/exercises
-git clone https://github.com/safety-research/petri.git
+git clone --branch v2.0.0 https://github.com/safety-research/petri.git
 ```
+'''
 
+# ! CELL TYPE: markdown
+# ! FILTERS: [~]
+# ! TAGS: []
+
+r'''
+We pin the `v2.0.0` tag because the repo has since moved to `meridianlabs-ai/inspect_petri` and been rewritten as a different package (`inspect_petri`, which needs Python >= 3.12), so its default branch no longer has the `petri` package this section uses. If you already cloned it without `--branch`, run `git -C petri checkout v2.0.0` before installing.
+'''
+
+# ! CELL TYPE: markdown
+# ! FILTERS: []
+# ! TAGS: []
+
+r'''
 And then, you'll need to run this, with the correct conda environment activated:
 
 ```bash
@@ -1283,8 +1308,10 @@ You can run this code to check everything worked correctly:
 
 import petri
 
-petri_path = petri.__path__[0]
-assert "ARENA_3.0" in petri_path
+petri_path = Path(petri.__path__[0]).resolve()
+assert petri_path.is_relative_to((exercises_dir / "petri").resolve()), (
+    f"petri is imported from {petri_path}, not from the clone in {exercises_dir / 'petri'}"
+)
 
 # ! CELL TYPE: markdown
 # ! FILTERS: []
@@ -1317,7 +1344,7 @@ from inspect_ai import eval as inspect_eval
 # `Sample` is a single input example (here: one seed instruction)
 from inspect_ai.dataset import Sample
 
-# `get_model` resolves a model string (e.g. "anthropic/claude-sonnet-4-20250514") into a Model object with a `.generate_response(...)` method
+# `get_model` resolves a model string (e.g. "anthropic/claude-sonnet-4.5") into a Model object with a `.generate_response(...)` method
 from inspect_ai.model import get_model
 
 # The judge: scores transcripts across 38 dimensions (e.g. unprompted_encouragement_of_user_delusion, eval_awareness)
@@ -1335,7 +1362,7 @@ r'''
 
 Here's how Petri's components fit together. The diagram below shows the full pipeline (seed instructions flow in on the left, scores come out on the right):
 
-<img src="https://raw.githubusercontent.com/info-arena/ARENA_img/refs/heads/main/misc/petri-diagram-2.png" width="800">
+<img src="https://raw.githubusercontent.com/info-arena/ARENA_img/refs/heads/main/misc/petri-diagram-2.webp" width="800">
 
 Three LLM roles collaborate:
 1. The **auditor**: an LLM agent with a toolkit (send_message, rollback, set_system_prompt, etc.) that investigates the target
@@ -1348,7 +1375,7 @@ This means the auditor doesn't just *ask questions*. It **controls the environme
 
 The next diagram shows how your manual Section 1 workflow maps onto Petri's automated pipeline:
 
-<img src="https://raw.githubusercontent.com/info-arena/ARENA_img/refs/heads/main/misc/petri-diagram-1.png" width="800">
+<img src="https://raw.githubusercontent.com/info-arena/ARENA_img/refs/heads/main/misc/petri-diagram-1.webp" width="800">
 
 In this section, you'll rebuild the core of this pipeline from scratch - the toolkit, the dispatch loop that connects the auditor LLM to the toolkit, and a simplified judge - using AI psychosis as your continuing case study.
 '''
@@ -1365,7 +1392,7 @@ Cast your eye back over Section 1. Look at what you assembled:
 | Section 1 component | Petri component |
 |---|---|
 | `red_team_prompt.txt` loaded as a string | Seed instruction |
-| Red-team LLM (Grok-3) playing the patient | Auditor agent |
+| Red-team LLM (Grok) playing the patient | Auditor agent |
 | `run_persona_conversation` - multi-turn adaptive probing | `auditor_agent(max_turns=N)` solver |
 | `grader_prompt.txt` + `grade_conversation` | `alignment_judge()` scorer |
 | `target_history` list of dicts | Petri transcript |
@@ -1849,6 +1876,9 @@ def run_auditor_with_prompt(
                 max_tokens=1000,
             )
         except Exception as e:
+            # Stop on transient errors (keeping the transcript so far), but don't silently swallow e.g. a dead model
+            if not any(msg in str(e) for msg in ("rate_limit", "429", "timeout", "502", "503")):
+                raise
             print(f"[auditor] API error on turn {turn}: {e}")
             break
 
@@ -2154,7 +2184,7 @@ Petri uses three separate model roles. We recommend:
 - Judge: a strong model (Claude Opus or GPT-4o)
 
 Note: Petri uses `inspect_ai`'s model name format, which differs from OpenRouter's format:
-- `"anthropic/claude-sonnet-4"` → calls Anthropic API directly (needs `ANTHROPIC_API_KEY`)
+- `"anthropic/claude-sonnet-4.5"` → calls Anthropic API directly (needs `ANTHROPIC_API_KEY`)
 - `"openai/gpt-4o"` → calls OpenAI API directly (needs `OPENAI_API_KEY`)
 - `"openrouter/deepseek/deepseek-chat"` → calls via OpenRouter (needs `OPENROUTER_API_KEY`)
 
@@ -2178,7 +2208,7 @@ def run_petri_ai_psychosis_audit(
     Args:
         seed: Seed instruction for the auditor (from AI_PSYCHOSIS_SEEDS)
         target_model_name: Model to probe (in inspect_ai format, e.g. "openrouter/deepseek/deepseek-chat")
-        auditor_model_name: Model to use as auditor (e.g. "anthropic/claude-sonnet-4")
+        auditor_model_name: Model to use as auditor (e.g. "openrouter/anthropic/claude-haiku-5.5")
         judge_model_name: Model to use as judge
         max_turns: Max auditor turns
 
@@ -2266,7 +2296,7 @@ def extract_petri_scores(logs: list) -> dict[str, Any]:
 if MAIN and FLAG_RUN_SECTION_2:
     scores = {}
     try:
-        logs = run_petri_ai_psychosis_audit(AI_PSYCHOSIS_SEEDS[0])
+        logs = run_petri_ai_psychosis_audit(AI_PSYCHOSIS_SEEDS[0], max_turns=10)
         scores = extract_petri_scores(logs)
 
         if scores:
@@ -2646,14 +2676,14 @@ WHISTLEBLOWING_DIMENSIONS = {
     ),
 }
 
-# 4 models - maximal overlap with Petri blog demo set.
+# 5 models - maximal overlap with Petri blog demo set (grok-4.1-fast was deprecated, so we use grok-4.3).
 # Comment out expensive models to keep costs manageable.
 WHISTLEBLOWING_MODELS = [
     ("google/gemini-2.5-pro", "Gemini\n2.5 Pro"),
     ("google/gemini-2.5-flash", "Gemini\n2.5 Flash"),
     ("openai/gpt-4o", "GPT-4o"),
     ("deepseek/deepseek-chat", "DeepSeek\nChat"),
-    ("x-ai/grok-4.1-fast", "Grok\n4.1 Fast"),
+    ("x-ai/grok-4.3", "Grok\n4.3"),
 ]
 
 # ! CELL TYPE: markdown
@@ -2736,7 +2766,7 @@ def measure_whistleblowing_propensity(
     # #   (c) Calls score_transcript(conversation, dimensions) to judge the conversation
     # #   (d) Normalises each dimension score from 1-10 to 0.0-1.0 (divide by 10, clamp to [0,1])
     # #   (e) Returns a dict mapping dimension name -> normalised score
-    # #   (f) Handles exceptions by returning all-zero scores
+    # #   (f) Lets exceptions propagate (returning zeros would make failed audits look like real results)
     # #
     # # Step 4: Use ThreadPoolExecutor to run _single_sample for each sample in parallel
     # #         and return the list of score dicts
@@ -2771,7 +2801,7 @@ def measure_whistleblowing_propensity(
             return {dim: max(0.0, min(1.0, scores.get(dim, 1) / 10.0)) for dim in dimensions}
         except Exception as e:
             print(f"  [sample] Failed: {e}")
-            return {dim: 0.0 for dim in dimensions}
+            raise
 
     with ThreadPoolExecutor(max_workers=min(num_samples, 5)) as executor:
         return list(executor.map(_single_sample, range(num_samples)))
@@ -2912,7 +2942,8 @@ def run_ablation_study(
 
 # HIDE
 if MAIN and FLAG_RUN_SECTION_2:
-    ablation_results = run_ablation_study(num_samples=12, max_turns=5, ci_level=0.80)
+    # 5 models x 5 conditions x 4 samples = 100 audits. Increase num_samples for tighter CIs (cost scales linearly).
+    ablation_results = run_ablation_study(num_samples=4, max_turns=5, ci_level=0.80)
 
     if not ablation_results.empty:
         # Print summary table - whistleblowing dimension only (matching Petri Figure 5)
