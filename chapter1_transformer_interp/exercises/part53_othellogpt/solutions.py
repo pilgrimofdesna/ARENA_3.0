@@ -18,7 +18,7 @@ import wandb
 from eindex import eindex
 from jaxtyping import Bool, Float, Int
 from torch import Tensor
-from tqdm.notebook import tqdm
+from tqdm.auto import tqdm
 from transformer_lens import ActivationCache, HookedTransformer, HookedTransformerConfig
 from transformer_lens.hook_points import HookPoint
 from transformer_lens.utils import download_file_from_hf, get_act_name, to_numpy
@@ -94,18 +94,18 @@ if MAIN:
 # %%
 
 if MAIN:
-    TOKEN_IDS_2D = np.array([str(i) if i in ALL_SQUARES else "" for i in range(64)]).reshape(8, 8)
+    SQUARE_INDICES_2D = np.array([str(i) if i in ALL_SQUARES else "" for i in range(64)]).reshape(8, 8)
     BOARD_LABELS_2D = np.array(["ABCDEFGH"[i // 8] + f"{i % 8}" for i in range(64)]).reshape(8, 8)
     
-    print(TOKEN_IDS_2D)
+    print(SQUARE_INDICES_2D)
     print(BOARD_LABELS_2D)
     
     utils.plot_board_values(
         t.stack([logprobs_board, logprobs_board]),  # shape (2, 8, 8)
-        title="Example Log Probs (with annotated token IDs)",
+        title="Example Log Probs (with annotated square indices)",
         width=800,
-        text=np.stack([TOKEN_IDS_2D, BOARD_LABELS_2D]),  # shape (2, 8, 8)
-        board_titles=["Labelled by token ID", "Labelled by board label"],
+        text=np.stack([SQUARE_INDICES_2D, BOARD_LABELS_2D]),  # shape (2, 8, 8)
+        board_titles=["Labelled by square index", "Labelled by board label"],
     )
 
 # %%
@@ -377,7 +377,7 @@ if MAIN:
     # Create a tensor of "their vs mine" board states (by flipping even parities of the "focus_states" tensor)
     focus_states_theirs_vs_mine = focus_states * (-1 + 2 * (t.arange(focus_states.shape[1]) % 2))[None, :, None, None]
     
-    # Convert values (0: empty, 1: theirs, -1: mine) to (0: empty, 1: theirs, 2: mine)
+    # Convert values (0: empty, 1: mine, -1: theirs) to (0: empty, 1: theirs, 2: mine)
     focus_states_theirs_vs_mine[focus_states_theirs_vs_mine == 1] = 2
     focus_states_theirs_vs_mine[focus_states_theirs_vs_mine == -1] = 1
     
@@ -888,8 +888,8 @@ if MAIN:
         corrupted_game_square
     )
     utils.plot_board_values(
-        t.stack([original_state[move], corrupted_state[move]]),
-        text=[original_legal_moves_annotation[move], corrupted_legal_moves_annotation[move]],
+        t.stack([original_state[0, move], corrupted_state[0, move]]),
+        text=[original_legal_moves_annotation[0][move], corrupted_legal_moves_annotation[0][move]],
         title="Focus game states",
         board_titles=["Original game (black plays E0)", "Corrupted game (black plays C0)"],
         width=650,
@@ -952,7 +952,7 @@ def get_act_patch_resid_pre(
     model: HookedTransformer,
     corrupted_input: Float[Tensor, "batch pos"],
     clean_cache: ActivationCache,
-    patching_metric: Callable[[Float[Tensor, "batch seq d_model"]], Float[Tensor, ""]],
+    patching_metric: Callable[[Float[Tensor, "batch seq d_vocab"]], Float[Tensor, ""]],
 ) -> Float[Tensor, "2 n_layers"]:
     """
     Returns an array of results corresponding to the results of patching at each (attn_out, mlp_out)
@@ -1043,7 +1043,7 @@ if MAIN:
 # %%
 
 if MAIN:
-    # Get top 30 games & plot them all
+    # Get top 30 moves & plot them all
     top_moves = neuron_acts > neuron_acts.quantile(0.99)
     top_focus_states = focus_states[:, :-1][top_moves.cpu()]
     top_focus_states_flip = focus_states_theirs_vs_mine[:, :-1][top_moves.cpu()]
@@ -1077,7 +1077,7 @@ if MAIN:
     
     utils.plot_board_values(
         board_state_at_top_moves,
-        title=f"Aggregated top 30 moves for neuron L{layer}N{neuron}<br>(1 = theirs, -1 = mine)",
+        title=f"Aggregated top 30 moves for neuron L{layer}N{neuron}<br>(1 = mine, -1 = theirs)",
         height=380,
         width=450,
     )
@@ -1209,18 +1209,37 @@ class ProbeTrainingArgs:
 
 # %%
 
+def get_board_states(games_square: Int[Tensor, "n_games n_moves"]) -> Int[Tensor, "n_games n_moves rows cols"]:
+    """
+    Same `states` as `get_board_states_and_legal_moves` returns (0 = empty, 1 = black, -1 = white), but
+    ~25x faster: it skips the legal moves (most of that function's runtime) and fills a numpy array rather
+    than writing into a torch tensor one move at a time. This makes it fast enough to precompute the
+    states of every training game once (~5 seconds for 10k games).
+    """
+    n_games, n_moves = games_square.shape
+    states = np.zeros((n_games, n_moves, 8, 8), dtype=np.int32)
+    for n, game in enumerate(games_square.tolist()):
+        board = utils.OthelloBoardState()
+        for i, move in enumerate(game):
+            board.umpire(move)
+            states[n, i] = board.state
+    return t.from_numpy(states)
+
+
 class LinearProbeTrainer:
     def __init__(self, model: HookedTransformer, args: ProbeTrainingArgs):
         self.model = model
         self.args = args
         self.linear_probe = args.setup_linear_probe(model)
+        self.games_id = board_seqs_id[: args.num_games].to(device)
+        self.board_states = get_board_states(board_seqs_square[: args.num_games]).to(device)
 
     def training_step(self, indices: Int[Tensor, "n_games"]) -> Float[Tensor, ""]:
-        # Use indices to slice our batch of games (remember, games_id = token IDs
-        # from 1 to 60, and games_square = indices of squares in board)
-        indices_cpu = indices.cpu()
-        games_id = board_seqs_id[indices_cpu]  # shape [batch n_moves=60]
-        games_square = board_seqs_square[indices_cpu]  # shape [batch n_moves=60]
+        # Use indices to slice our batch of games (remember, games_id = token IDs from 1 to 60,
+        # and states = board state after each move, with 0 = empty, 1 = black, -1 = white).
+        indices = indices.to(device)
+        games_id = self.games_id[indices]  # shape [batch n_moves=60]
+        states = self.board_states[indices]  # shape [batch n_moves=60 rows=8 cols=8]
 
         # Define seqpos slicing (note, we add n_ctx to pos_end to deal with the zero case)
         pos_start = self.args.pos_start
@@ -1253,8 +1272,7 @@ class LinearProbeTrainer:
         # Get the actual game state. The original state has {0: empty, 1: black, -1: white} and
         # we want our probe to be in the basis {0: empty, 1: theirs, 2: mine}. We're only training
         # on even moves i.e. black just played and mine = white, so we just need to map -1 -> 2.
-        state = get_board_states_and_legal_moves(games_square)[0]  # shape [batch moves 8 8]
-        state = state[:, seqpos_indices]  # shape [batch pos 8 8]
+        state = states[:, seqpos_indices]  # shape [batch pos 8 8]
         state[state == -1] = 2
 
         # Index into probe logprobs to get the logprobs for correct board state, and then
@@ -1364,9 +1382,9 @@ class MultiProbeTrainingArgs(ProbeTrainingArgs):
 
 class LinearMultiProbeTrainer(LinearProbeTrainer):
     def training_step(self, indices: Int[Tensor, "n_games"]) -> Float[Tensor, ""]:
-        indices_cpu = indices.cpu()
-        games_id = board_seqs_id[indices_cpu]  # shape [batch n_moves=60]
-        games_square = board_seqs_square[indices_cpu]  # shape [batch n_moves=60]
+        indices = indices.to(device)
+        games_id = self.games_id[indices]  # shape [batch n_moves=60]
+        states = self.board_states[indices]  # shape [batch n_moves=60 rows=8 cols=8]
 
         pos_start = self.args.pos_start
         pos_end = self.args.pos_end + self.model.cfg.n_ctx
@@ -1394,7 +1412,7 @@ class LinearMultiProbeTrainer(LinearProbeTrainer):
         # Get the actual game state. The original state has {0: empty, 1: black, -1: white} and
         # we want our probe to be in the basis {0: empty, 1: theirs, 2: mine}. For even moves,
         # mine = white, so we map -1 -> 2. For odd moves, mine = black, so we map {1, -1} -> {2, 1}.
-        state = get_board_states_and_legal_moves(games_square)[0]
+        state = states
         state[:, ::2][state[:, ::2] == -1] = 2
         state[:, 1::2][state[:, 1::2] == 1] = 2
         state[:, 1::2][state[:, 1::2] == -1] = 1
