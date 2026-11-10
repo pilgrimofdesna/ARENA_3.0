@@ -10,6 +10,7 @@ dependencies = [
     "jupyterlab>=4",
     "plotly>=6",
     "plotly-utils>=0.0.3",
+    "scikit-learn>=1.9.1",
     "torch>=2.13.0",
     "transformer-lens==3.6.0",
 ]
