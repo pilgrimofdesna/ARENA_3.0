@@ -1,0 +1,10 @@
+# 이 장의 출력을 만든 환경 (2026-11-20, 클라우드 CPU 4코어, RAM 15 GiB, GPU 없음, Python 3.13.18).
+# GPU가 없어도 된다. CPU용 torch: pip install torch --index-url https://download.pytorch.org/whl/cpu
+torch==2.15.0
+transformers==5.23.0
+numpy==2.5.3
+pandas==3.0.5
+scikit-learn==1.9.1
+matplotlib==3.11.2
+threadpoolctl
+ipykernel

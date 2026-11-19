@@ -1,0 +1,4 @@
+# activation cache (다시 계산 가능)
+cache/
+__pycache__/
+.ipynb_checkpoints/
