@@ -217,3 +217,124 @@ def save_results(name: str, results: dict) -> Path:
     path = RESULTS_DIR / f"{name}.json"
     path.write_text(json.dumps(pl._to_jsonable(results), ensure_ascii=False, indent=2))
     return path
+
+
+# ---------------------------------------------------------------------------
+# ③ 희소화: 웹 문서, 보정 통계, 마스킹, 손실과 KL
+# ---------------------------------------------------------------------------
+WIKITEXT_REVISION = "b08601e04326c79dfdd32d625aee71d232d685c3"
+
+
+def wikitext_chunks(tok, split: str, n: int, T: int = 128, n_paragraphs: int = 3000) -> Tensor:
+    """wikitext-103-raw-v1의 문단을 이어 붙여 T token씩 n개로 자른다. 제목 줄(= ... =)과 빈 줄은 뺀다.
+    파일은 처음 한 번 Hugging Face에서 `cache/`로 받는다(CC BY-SA 3.0 / GFDL)."""
+    import pandas as pd
+
+    CACHE_DIR.mkdir(exist_ok=True)
+    path = CACHE_DIR / f"wikitext103_{split}.parquet"
+    if not path.exists():
+        from huggingface_hub import hf_hub_download
+
+        src = hf_hub_download("Salesforce/wikitext", f"wikitext-103-raw-v1/{split}-00000-of-00001.parquet",
+                              repo_type="dataset", revision=WIKITEXT_REVISION)
+        path.write_bytes(Path(src).read_bytes())
+    text = pd.read_parquet(path).text
+    s = text.str.strip()
+    text = text[(s.str.len() > 0) & (~s.str.startswith("="))]
+    ids = tok(" ".join(text.tolist()[:n_paragraphs]), verbose=False)["input_ids"][: n * T]
+    assert len(ids) == n * T, "문단이 모자란다: n_paragraphs를 늘린다"
+    return torch.tensor(ids).view(n, T)
+
+
+@torch.inference_mode()
+def calibrate(model, chunks: Tensor, stride: int = 4, skip_first: bool = True, batch_size: int = 16):
+    """층마다 뉴런 활성의 평균과 분위수(p3, p10, p90, p97)를 잰다.
+    skip_first: 각 조각의 첫 위치를 뺀다. 첫 위치는 문맥이 없어 활성이 유난히 크거나 작다(③ Cell 03)."""
+    L, F = model.config.num_hidden_layers, model.config.intermediate_size
+    samp = {l: [] for l in range(L)}
+    start = 1 if skip_first else 0
+    hs = [layers(model)[l].mlp.down_proj.register_forward_pre_hook(
+        lambda m, inp, l=l: samp[l].append(inp[0][:, start::stride].reshape(-1, F).clone())) for l in range(L)]
+    try:
+        for s in range(0, len(chunks), batch_size):
+            model(chunks[s:s + batch_size])
+    finally:
+        for h in hs:
+            h.remove()
+    q = torch.tensor([0.03, 0.10, 0.90, 0.97])
+    out = {}
+    for l in range(L):
+        X = torch.cat(samp[l])
+        out[l] = dict(mean=X.mean(0), q=torch.quantile(X, q, dim=0))
+    return out
+
+
+QUANTILES = {"p3": 0, "p10": 1, "p90": 2, "p97": 3}
+
+
+@contextlib.contextmanager
+def sparsify(model, *, keep: str, k: int | None = None, band: tuple[str, str] | None = None,
+             fill: str = "zero", stats: dict | None = None, seed: int = 0, record: list | None = None):
+    """모든 층에서 token마다 일부 뉴런만 남기고 나머지를 0 또는 평균으로 바꾼다(down_proj 직전).
+
+    keep="abs":    |a| 상위 k개를 남긴다 (논문의 top-K. 이 모델은 MoE가 아니라 router weight가 없다)
+    keep="write":  |a|·‖d_i‖ 상위 k개 (쓰기 크기 기준. ① Cell 04의 크기 대칭 질문)
+    keep="random": 무작위 k개 (대조군)
+    keep="band":   뉴런마다 분위수 band=(lo, hi) 바깥(강한 쪽)만 남긴다. 예: ("p10", "p90")
+    fill: "zero" 또는 "mean" (stats의 뉴런별 평균)
+    record: 넘기면 남긴 비율을 batch마다 덧붙인다.
+    """
+    gen = torch.Generator().manual_seed(seed)
+    dnorm = [layers(model)[l].mlp.down_proj.weight.norm(dim=0) for l in range(model.config.num_hidden_layers)]
+
+    def make(l):
+        def hook(m, inp):
+            a = inp[0]
+            if keep == "band":
+                q = stats[l]["q"]
+                mask = (a < q[QUANTILES[band[0]]]) | (a > q[QUANTILES[band[1]]])
+            else:
+                if keep == "abs":
+                    score = a.abs()
+                elif keep == "write":
+                    score = a.abs() * dnorm[l]
+                elif keep == "random":
+                    score = torch.rand(a.shape, generator=gen)
+                else:
+                    raise ValueError(keep)
+                idx = score.topk(k, dim=-1).indices
+                mask = torch.zeros_like(a, dtype=torch.bool).scatter_(-1, idx, True)
+            filler = stats[l]["mean"].to(a.dtype) if fill == "mean" else torch.zeros((), dtype=a.dtype)
+            if record is not None:
+                record.append(mask.float().mean().item())
+            return (torch.where(mask, a, filler),)
+        return hook
+
+    hs = [layers(model)[l].mlp.down_proj.register_forward_pre_hook(make(l)) for l in range(model.config.num_hidden_layers)]
+    try:
+        yield
+    finally:
+        for h in hs:
+            h.remove()
+
+
+@torch.inference_mode()
+def loss_and_kl(model, chunks: Tensor, ctx=None, batch_size: int = 8) -> dict[str, float]:
+    """다음 token 예측의 평균 cross-entropy(원래 모델, 바꾼 모델)와, 원래 분포에서 바꾼 분포로의 KL.
+    ctx: 바꾼 모델을 만드는 context manager를 돌려주는 함수(예: lambda: sparsify(...)). None이면 원래 모델끼리."""
+    nll_b, nll_a, kls = [], [], []
+    for s in range(0, len(chunks), batch_size):
+        x = chunks[s:s + batch_size]
+        tgt = x[:, 1:, None]
+        lpb = model(x).logits[:, :-1].float().log_softmax(-1)
+        if ctx is None:
+            lpa = lpb
+        else:
+            with ctx():
+                lpa = model(x).logits[:, :-1].float().log_softmax(-1)
+        nll_b.append(-lpb.gather(-1, tgt)[..., 0].flatten())
+        nll_a.append(-lpa.gather(-1, tgt)[..., 0].flatten())
+        kls.append((lpb.exp() * (lpb - lpa)).sum(-1).flatten())
+        del lpb, lpa
+    b, a = torch.cat(nll_b).mean().item(), torch.cat(nll_a).mean().item()
+    return dict(loss_base=b, loss=a, rel=a / b - 1, kl=torch.cat(kls).mean().item())
